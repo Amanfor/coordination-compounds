@@ -4,7 +4,7 @@
     "title": "Werner's Theory",
     "slug": "werners-theory",
     "summary": "The structural foundation of coordination chemistry explaining primary and secondary valencies.",
-    "body": "Alfred Werner's theory explains the fundamental structure of coordination complexes. \n\n- **Primary Valency (Principal Valency):** Ionisable, non-directional, satisfied by anions, and corresponds to the formal oxidation state of the central metal.\n- **Secondary Valency (Auxiliary Valency):** Non-ionisable, highly directional in space (determining geometry), satisfied by neutral molecules or anions, and corresponds to the coordination number of the central metal.\n- **Coordination Sphere:** The central metal and directly coordinated ligands enclosed in square brackets $[\\dots]$. Species inside do not ionise in solution.\n- **Ionisation Sphere:** The ionisable species outside the square brackets that balance the electrical charge.",
+    "body": "<p>Alfred Werner's theory explains the fundamental structure of coordination complexes. </p>\n<ul>\n<li><strong>Primary Valency (Principal Valency):</strong> Ionisable, non-directional, satisfied by anions, and corresponds to the formal oxidation state of the central metal.</li>\n<li><strong>Secondary Valency (Auxiliary Valency):</strong> Non-ionisable, highly directional in space (determining geometry), satisfied by neutral molecules or anions, and corresponds to the coordination number of the central metal.</li>\n<li><strong>Coordination Sphere:</strong> The central metal and directly coordinated ligands enclosed in square brackets $[\\dots]$. Species inside do not ionise in solution.</li>\n<li><strong>Ionisation Sphere:</strong> The ionisable species outside the square brackets that balance the electrical charge.</li>\n</ul>",
     "visual": "werner-experiment",
     "order": 1
   },
@@ -13,7 +13,7 @@
     "title": "Ligands and Chelates",
     "slug": "ligands-and-chelates",
     "summary": "Molecules or ions that donate electron pairs to central metals, and the enhanced stability of ring-forming chelates.",
-    "body": "**Ligands** are ions or neutral molecules with lone pairs that form coordinate covalent bonds with the central metal.\n\n- **Monodentate:** Single donor atom (e.g., $H_2O, NH_3, Cl^-$).\n- **Bidentate:** Two donor atoms (e.g., ethylenediamine $en$, oxalate $ox^{2-}$).\n- **Polydentate:** Three or more donor atoms (e.g., $EDTA^{4-}$ is hexadentate).\n- **Ambidentate:** Monodentate ligands with two different potential donor atoms (e.g., $NO_2^-, SCN^-, CN^-$).\n- **Chelate Effect:** Polydentate ligands forming a closed ring structure (chelate) with the metal ion result in complexes with enhanced thermodynamic stability, primarily driven by a positive entropy change ($\\Delta S^\\circ > 0$).",
+    "body": "<p><strong>Ligands</strong> are ions or neutral molecules with lone pairs that form coordinate covalent bonds with the central metal.</p>\n<ul>\n<li><strong>Monodentate:</strong> Single donor atom (e.g., $H_2O, NH_3, Cl^-$).</li>\n<li><strong>Bidentate:</strong> Two donor atoms (e.g., ethylenediamine $en$, oxalate $ox^{2-}$).</li>\n<li><strong>Polydentate:</strong> Three or more donor atoms (e.g., $EDTA^{4-}$ is hexadentate).</li>\n<li><strong>Ambidentate:</strong> Monodentate ligands with two different potential donor atoms (e.g., $NO_2^-, SCN^-, CN^-$).</li>\n<li><strong>Chelate Effect:</strong> Polydentate ligands forming a closed ring structure (chelate) with the metal ion result in complexes with enhanced thermodynamic stability, primarily driven by a positive entropy change ($\\Delta S^\\circ &gt; 0$).</li>\n</ul>",
     "visual": "chelation-effect",
     "order": 2
   },
@@ -22,7 +22,7 @@
     "title": "Coordination Number & Geometry",
     "slug": "coordination-number-geometry",
     "summary": "The relationship between the number of ligand donor atoms and the spatial geometry of the complex.",
-    "body": "The **Coordination Number (C.N.)** is the total number of ligand donor atoms directly bonded to the central metal.\n\n- **C.N. = 2:** Linear geometry (e.g., $[Ag(NH_3)_2]^+$).\n- **C.N. = 4:** Can be Tetrahedral ($sp^3$) or Square Planar ($dsp^2$).\n- **C.N. = 6:** Octahedral geometry, utilizing either inner $d$-orbitals ($d^2sp^3$) or outer $d$-orbitals ($sp^3d^2$).",
+    "body": "<p>The <strong>Coordination Number (C.N.)</strong> is the total number of ligand donor atoms directly bonded to the central metal.</p>\n<ul>\n<li><strong>C.N. = 2:</strong> Linear geometry (e.g., $[Ag(NH_3)_2]^+$).</li>\n<li><strong>C.N. = 4:</strong> Can be Tetrahedral ($sp^3$) or Square Planar ($dsp^2$).</li>\n<li><strong>C.N. = 6:</strong> Octahedral geometry, utilizing either inner $d$-orbitals ($d^2sp^3$) or outer $d$-orbitals ($sp^3d^2$).</li>\n</ul>",
     "visual": "molecular-geometry",
     "order": 3
   },
@@ -31,7 +31,7 @@
     "title": "IUPAC Nomenclature",
     "slug": "iupac-nomenclature",
     "summary": "Systematic rules for naming coordination compounds.",
-    "body": "Naming rules for coordination entities:\n\n- **Order:** Cation is named first, followed by the anion.\n- **Ligand Ordering:** Ligands are named in strictly alphabetical order before the central metal. Multiplicative prefixes (di, tri) do not affect alphabetical order.\n- **Anionic Ligands:** End with the suffix '-ido' (e.g., chlorido, cyanido).\n- **Neutral Ligands:** Retain their common names with exceptions: $H_2O$ (aqua), $NH_3$ (ammine), $CO$ (carbonyl), $NO$ (nitrosyl).\n- **Central Metal:** In anionic complexes, the metal's Latin name takes the suffix '-ate' (e.g., ferrate, cuprate). In cationic/neutral complexes, the standard name is used.\n- **Oxidation State:** Designated by Roman numerals in parentheses (e.g., $(II), (III)$).",
+    "body": "<p>Naming rules for coordination entities:</p>\n<ul>\n<li><strong>Order:</strong> Cation is named first, followed by the anion.</li>\n<li><strong>Ligand Ordering:</strong> Ligands are named in strictly alphabetical order before the central metal. Multiplicative prefixes (di, tri) do not affect alphabetical order.</li>\n<li><strong>Anionic Ligands:</strong> End with the suffix '-ido' (e.g., chlorido, cyanido).</li>\n<li><strong>Neutral Ligands:</strong> Retain their common names with exceptions: $H_2O$ (aqua), $NH_3$ (ammine), $CO$ (carbonyl), $NO$ (nitrosyl).</li>\n<li><strong>Central Metal:</strong> In anionic complexes, the metal's Latin name takes the suffix '-ate' (e.g., ferrate, cuprate). In cationic/neutral complexes, the standard name is used.</li>\n<li><strong>Oxidation State:</strong> Designated by Roman numerals in parentheses (e.g., $(II), (III)$).</li>\n</ul>",
     "visual": "naming-interactive",
     "order": 4
   },
@@ -40,7 +40,7 @@
     "title": "Isomerism in Complexes",
     "slug": "isomerism",
     "summary": "Compounds with the same formula but different structural connectivity or spatial arrangements.",
-    "body": "Isomerism in coordination compounds is divided into Structural Isomerism and Stereoisomerism.\n\n**Structural Isomerism:**\n- **Ionisation:** Exchange of coordinated ligand with ionisable counter ion.\n- **Hydrate:** Water molecules swap between inner coordination sphere and outer crystal lattice.\n- **Linkage:** Arises in complexes with ambidentate ligands (e.g., $NO_2^-$ vs $ONO^-$).\n- **Coordination:** Interchange of ligands between complex cation and complex anion.\n\n**Stereoisomerism:**\n- **Geometrical:** *cis* (adjacent) vs *trans* (opposite) in square planar and octahedral complexes. *fac* (facial) vs *mer* (meridional) in octahedral $[Ma_3b_3]$.\n- **Optical:** Non-superimposable mirror images (chiral enantiomers). Complex must lack a plane of symmetry. e.g., $cis-[Co(en)_2Cl_2]^+$ is optically active, while $trans-[Co(en)_2Cl_2]^+$ is optically inactive.",
+    "body": "<p>Isomerism in coordination compounds is divided into Structural Isomerism and Stereoisomerism.</p>\n<p><strong>Structural Isomerism:</strong>\n- <strong>Ionisation:</strong> Exchange of coordinated ligand with ionisable counter ion.\n- <strong>Hydrate:</strong> Water molecules swap between inner coordination sphere and outer crystal lattice.\n- <strong>Linkage:</strong> Arises in complexes with ambidentate ligands (e.g., $NO_2^-$ vs $ONO^-$).\n- <strong>Coordination:</strong> Interchange of ligands between complex cation and complex anion.</p>\n<p><strong>Stereoisomerism:</strong>\n- <strong>Geometrical:</strong> <em>cis</em> (adjacent) vs <em>trans</em> (opposite) in square planar and octahedral complexes. <em>fac</em> (facial) vs <em>mer</em> (meridional) in octahedral $[Ma_3b_3]$.\n- <strong>Optical:</strong> Non-superimposable mirror images (chiral enantiomers). Complex must lack a plane of symmetry. e.g., $cis-[Co(en)_2Cl_2]^+$ is optically active, while $trans-[Co(en)_2Cl_2]^+$ is optically inactive.</p>",
     "visual": "isomer-3d-viewer",
     "order": 5
   },
@@ -49,7 +49,7 @@
     "title": "Valence Bond Theory (VBT)",
     "slug": "valence-bond-theory",
     "summary": "Explains bonding, geometry, and magnetic behaviour via atomic orbital hybridization.",
-    "body": "VBT involves the hybridization of metal orbitals to accept ligand electron pairs.\n\n- **$sp^3$ (Tetrahedral):** Occurs with weak field ligands or $d^{10}$ systems.\n- **$dsp^2$ (Square Planar):** Strong field ligands force pairing in $d^8$ configurations, vacating an inner $d$-orbital.\n- **$d^2sp^3$ (Inner Orbital Octahedral):** Low-spin, spin-paired complexes formed with strong field ligands.\n- **$sp^3d^2$ (Outer Orbital Octahedral):** High-spin, spin-free complexes formed with weak field ligands.\n- **Magnetic Moment:** $\\mu_s = \\sqrt{n(n + 2)}$ B.M., where $n$ is the number of unpaired electrons.",
+    "body": "<p>VBT involves the hybridization of metal orbitals to accept ligand electron pairs.</p>\n<ul>\n<li><strong>$sp^3$ (Tetrahedral):</strong> Occurs with weak field ligands or $d^{10}$ systems.</li>\n<li><strong>$dsp^2$ (Square Planar):</strong> Strong field ligands force pairing in $d^8$ configurations, vacating an inner $d$-orbital.</li>\n<li><strong>$d^2sp^3$ (Inner Orbital Octahedral):</strong> Low-spin, spin-paired complexes formed with strong field ligands.</li>\n<li><strong>$sp^3d^2$ (Outer Orbital Octahedral):</strong> High-spin, spin-free complexes formed with weak field ligands.</li>\n<li><strong>Magnetic Moment:</strong> $\\mu_s = \\sqrt{n(n + 2)}$ B.M., where $n$ is the number of unpaired electrons.</li>\n</ul>",
     "visual": "vbt-hybridization",
     "order": 6
   },
@@ -58,7 +58,7 @@
     "title": "Crystal Field Theory (CFT)",
     "slug": "crystal-field-theory",
     "summary": "Electrostatic approach explaining $d$-orbital splitting, color, and magnetic properties.",
-    "body": "CFT assumes electrostatic interactions between the metal and ligands, leading to the splitting of degenerate $d$-orbitals.\n\n- **Octahedral Splitting ($\\Delta_o$):** $e_g$ set goes up by $+0.6\\Delta_o$, $t_{2g}$ set goes down by $-0.4\\Delta_o$.\n- **Tetrahedral Splitting ($\\Delta_t$):** Splitting is inverted ($t_2$ up, $e$ down) and smaller: $\\Delta_t = \\frac{4}{9}\\Delta_o$. Always high-spin.\n- **Spectrochemical Series:** Determines ligand splitting power ($I^- < Cl^- < F^- < H_2O < NH_3 < en < CN^- < CO$).\n- **High vs Low Spin:** If $\\Delta_o < P$ (pairing energy), high-spin complexes form. If $\\Delta_o > P$, low-spin complexes form.\n- **CFSE:** Crystal Field Stabilization Energy $= [-0.4 \\cdot n(t_{2g}) + 0.6 \\cdot n(e_g)]\\Delta_o$.\n- **Colour:** Arises from $d-d$ electron transitions or Ligand-to-Metal Charge Transfer (LMCT).",
+    "body": "<p>CFT assumes electrostatic interactions between the metal and ligands, leading to the splitting of degenerate $d$-orbitals.</p>\n<ul>\n<li><strong>Octahedral Splitting ($\\Delta_o$):</strong> $e_g$ set goes up by $+0.6\\Delta_o$, $t_{2g}$ set goes down by $-0.4\\Delta_o$.</li>\n<li><strong>Tetrahedral Splitting ($\\Delta_t$):</strong> Splitting is inverted ($t_2$ up, $e$ down) and smaller: $\\Delta_t = \\frac{4}{9}\\Delta_o$. Always high-spin.</li>\n<li><strong>Spectrochemical Series:</strong> Determines ligand splitting power ($I^- &lt; Cl^- &lt; F^- &lt; H_2O &lt; NH_3 &lt; en &lt; CN^- &lt; CO$).</li>\n<li><strong>High vs Low Spin:</strong> If $\\Delta_o &lt; P$ (pairing energy), high-spin complexes form. If $\\Delta_o &gt; P$, low-spin complexes form.</li>\n<li><strong>CFSE:</strong> Crystal Field Stabilization Energy $= [-0.4 \\cdot n(t_{2g}) + 0.6 \\cdot n(e_g)]\\Delta_o$.</li>\n<li><strong>Colour:</strong> Arises from $d-d$ electron transitions or Ligand-to-Metal Charge Transfer (LMCT).</li>\n</ul>",
     "visual": "d-orbital-splitting",
     "order": 7
   },
@@ -67,7 +67,7 @@
     "title": "Stability of Complexes",
     "slug": "stability-of-complexes",
     "summary": "Thermodynamic and kinetic factors governing complex formation.",
-    "body": "Complex stability is determined by formation constants.\n\n- **Overall Stability Constant ($\\beta_n$):** Product of stepwise formation constants ($K_1 \\times K_2 \\times \\dots \\times K_n$). Higher $\\beta_n$ means greater thermodynamic stability.\n- **Charge-to-Radius Ratio:** Higher formal oxidation state and smaller ionic radius enhance stability.\n- **Ligand Basicity:** Stronger Lewis bases form more stable complexes.\n- **Chelate Effect:** Multidentate ligands form far more stable complexes than monodentate analogues.\n- **Irving-Williams Series:** Order of stability for divalent $3d$ metals: $Mn^{2+} < Fe^{2+} < Co^{2+} < Ni^{2+} < Cu^{2+} > Zn^{2+}$.",
+    "body": "<p>Complex stability is determined by formation constants.</p>\n<ul>\n<li><strong>Overall Stability Constant ($\\beta_n$):</strong> Product of stepwise formation constants ($K_1 \\times K_2 \\times \\dots \\times K_n$). Higher $\\beta_n$ means greater thermodynamic stability.</li>\n<li><strong>Charge-to-Radius Ratio:</strong> Higher formal oxidation state and smaller ionic radius enhance stability.</li>\n<li><strong>Ligand Basicity:</strong> Stronger Lewis bases form more stable complexes.</li>\n<li><strong>Chelate Effect:</strong> Multidentate ligands form far more stable complexes than monodentate analogues.</li>\n<li><strong>Irving-Williams Series:</strong> Order of stability for divalent $3d$ metals: $Mn^{2+} &lt; Fe^{2+} &lt; Co^{2+} &lt; Ni^{2+} &lt; Cu^{2+} &gt; Zn^{2+}$.</li>\n</ul>",
     "visual": "stability-graph",
     "order": 8
   },
@@ -76,7 +76,7 @@
     "title": "Effective Atomic Number (EAN) Rule",
     "slug": "ean-rule",
     "summary": "Complexes gain stability by achieving a noble gas electron configuration.",
-    "body": "Sidgwick proposed that complexes are most stable when the central metal acquires the closed-shell electronic configuration of the nearest noble gas (e.g., Kr 36, Xe 54).\n\n- **Formula:** $EAN = Z - O.S. + 2 \\times C.N.$\n- $Z = $ Atomic number of central metal.\n- $O.S. = $ Oxidation state.\n- $C.N. = $ Coordination number (or number of ligands $\\times$ denticity $\\times$ 2 electrons).\n- **Examples:** $[Fe(CN)_6]^{4-} \\implies 26 - 2 + (2 \\times 6) = 36$ (Kr configuration). $[Ni(CO)_4] \\implies 28 - 0 + (2 \\times 4) = 36$.",
+    "body": "<p>Sidgwick proposed that complexes are most stable when the central metal acquires the closed-shell electronic configuration of the nearest noble gas (e.g., Kr 36, Xe 54).</p>\n<ul>\n<li><strong>Formula:</strong> $EAN = Z - O.S. + 2 \\times C.N.$</li>\n<li>$Z = $ Atomic number of central metal.</li>\n<li>$O.S. = $ Oxidation state.</li>\n<li>$C.N. = $ Coordination number (or number of ligands $\\times$ denticity $\\times$ 2 electrons).</li>\n<li><strong>Examples:</strong> $[Fe(CN)_6]^{4-} \\implies 26 - 2 + (2 \\times 6) = 36$ (Kr configuration). $[Ni(CO)_4] \\implies 28 - 0 + (2 \\times 4) = 36$.</li>\n</ul>",
     "visual": "ean-calculator",
     "order": 9
   },
@@ -85,7 +85,7 @@
     "title": "Metal Carbonyls & Synergic Bonding",
     "slug": "metal-carbonyls",
     "summary": "Organometallic compounds featuring carbon monoxide ligands and dual-character bonding.",
-    "body": "Metal carbonyls involve a unique synergic (cooperative) bonding mechanism with $CO$ ligands.\n\n- **$\\sigma$-Donation:** $CO$ lone pair donates into an empty metal hybrid orbital ($M \\leftarrow C$).\n- **$\\pi$-Backbonding:** Filled metal $d$-orbitals back-donate into empty $\\pi^*$ antibonding orbitals of $CO$ ($M \\rightarrow C$).\n- **Effects:** Synergic bonding strengthens and shortens the $M-C$ bond but weakens and lengthens the $C-O$ bond, lowering its IR stretching frequency ($\\nu_{CO}$).\n- **Examples:** $[Fe(CO)_5]$ (trigonal bipyramidal), $[Ni(CO)_4]$ (tetrahedral).",
+    "body": "<p>Metal carbonyls involve a unique synergic (cooperative) bonding mechanism with $CO$ ligands.</p>\n<ul>\n<li><strong>$\\sigma$-Donation:</strong> $CO$ lone pair donates into an empty metal hybrid orbital ($M \\leftarrow C$).</li>\n<li><strong>$\\pi$-Backbonding:</strong> Filled metal $d$-orbitals back-donate into empty $\\pi^*$ antibonding orbitals of $CO$ ($M \\rightarrow C$).</li>\n<li><strong>Effects:</strong> Synergic bonding strengthens and shortens the $M-C$ bond but weakens and lengthens the $C-O$ bond, lowering its IR stretching frequency ($\\nu_{CO}$).</li>\n<li><strong>Examples:</strong> $[Fe(CO)_5]$ (trigonal bipyramidal), $[Ni(CO)_4]$ (tetrahedral).</li>\n</ul>",
     "visual": "synergic-bonding",
     "order": 10
   },
@@ -94,7 +94,7 @@
     "title": "Applications of Coordination Compounds",
     "slug": "applications",
     "summary": "Crucial roles in biology, medicine, metallurgy, and analytical chemistry.",
-    "body": "Coordination compounds have widespread practical applications:\n\n- **Biological Systems:** Haemoglobin ($Fe^{2+}$ complex), Chlorophyll ($Mg^{2+}$ complex), Vitamin $B_{12}$ ($Co^{3+}$ complex).\n- **Medicine:** Cisplatin ($cis-[Pt(NH_3)_2Cl_2]$) is an anti-cancer drug. $EDTA$ is used to treat heavy metal poisoning (e.g., lead).\n- **Metallurgy:** Extraction of gold and silver via cyanide complexes (MacArthur-Forrest process). Purification of nickel via $[Ni(CO)_4]$ (Mond's process).\n- **Analytical Chemistry:** Detection of $Ni^{2+}$ using DMG (rosy-red complex), and $Fe^{3+}$ using $SCN^-$ (blood-red complex).",
+    "body": "<p>Coordination compounds have widespread practical applications:</p>\n<ul>\n<li><strong>Biological Systems:</strong> Haemoglobin ($Fe^{2+}$ complex), Chlorophyll ($Mg^{2+}$ complex), Vitamin $B_{12}$ ($Co^{3+}$ complex).</li>\n<li><strong>Medicine:</strong> Cisplatin ($cis-[Pt(NH_3)_2Cl_2]$) is an anti-cancer drug. $EDTA$ is used to treat heavy metal poisoning (e.g., lead).</li>\n<li><strong>Metallurgy:</strong> Extraction of gold and silver via cyanide complexes (MacArthur-Forrest process). Purification of nickel via $[Ni(CO)_4]$ (Mond's process).</li>\n<li><strong>Analytical Chemistry:</strong> Detection of $Ni^{2+}$ using DMG (rosy-red complex), and $Fe^{3+}$ using $SCN^-$ (blood-red complex).</li>\n</ul>",
     "visual": "real-world-uses",
     "order": 11
   }
