@@ -49,8 +49,23 @@
 
 <style>
   .colour-wheel-container { background: #000; color: #fff; padding: 20px; border: 1px solid #333; text-align: center; }
-  .slice { cursor: pointer; transition: opacity 0.2s; }
-  .slice:hover { opacity: 0.8; }
+  
+  .slice { cursor: pointer; transition: transform 0.2s, opacity 0.2s; }
+  .slice:hover { opacity: 0.8; transform: scale(1.05); }
+  
+  #colour-wheel > g {
+    animation: slowSpin 20s linear infinite;
+    transform-origin: center;
+  }
+  #colour-wheel:hover > g {
+    animation-play-state: paused;
+  }
+  @keyframes slowSpin {
+    from { transform: translate(150px, 150px) rotate(0deg); }
+    to { transform: translate(150px, 150px) rotate(360deg); }
+  }
+
+  
   #colour-result { margin: 20px 0; font-size: 1.2em; font-weight: bold; }
   .complex-table { width: 100%; border-collapse: collapse; font-size: 0.9em; margin-top: 15px; }
   .complex-table th, .complex-table td { border: 1px solid #333; padding: 8px; }
