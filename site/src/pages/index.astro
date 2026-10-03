@@ -58,7 +58,7 @@ const getVisualComponent = (visualName: string) => {
 						</div>
 					)}
 					
-					<div class="concept-body" set:html={concept.body} />
+					<div class="concept-body" set:html={concept.body.replace(/\n/g, '<br/>')} />
 					
 					{conceptQuestions.length > 0 && (
 						<div class="questions-section">
@@ -69,7 +69,7 @@ const getVisualComponent = (visualName: string) => {
 										<span class="q-number">Q{i+1}.</span>
 										{q.source && <span class="q-source">{q.source}</span>}
 									</div>
-									<div class="q-text" set:html={q.question} />
+									<div class="q-text" set:html={q.question.replace(/\n/g, '<br/>')} />
 									{q.options && q.options.length > 0 && (
 										<ul class="options-list">
 											{q.options.map((opt: string, j: number) => (
@@ -82,7 +82,7 @@ const getVisualComponent = (visualName: string) => {
 									</button>
 									<div id={`sol-${q.id}`} class="solution">
 										<div class="ans-label">Answer: {q.answer}</div>
-										<div class="sol-text" set:html={q.solution} />
+										<div class="sol-text" set:html={q.solution.replace(/\n/g, '<br/>')} />
 									</div>
 								</div>
 							))}
