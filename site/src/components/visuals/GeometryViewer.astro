@@ -1,96 +1,206 @@
 ---
 ---
 <div class="geometry-viewer">
-  <h2>Geometry Viewer</h2>
   <div class="controls">
-    <select id="geometry-select">
-      <option value="linear">Linear</option>
-      <option value="square-planar">Square Planar</option>
-      <option value="tetrahedral">Tetrahedral</option>
-      <option value="octahedral">Octahedral</option>
-    </select>
+    <div class="control-group">
+      <label>Geometry</label>
+      <select id="geometry-select">
+        <option value="linear">Linear (CN 2)</option>
+        <option value="tetrahedral">Tetrahedral (CN 4)</option>
+        <option value="square-planar">Square Planar (CN 4)</option>
+        <option value="octahedral">Octahedral (CN 6)</option>
+      </select>
+    </div>
     
-    <div id="isomer-options" style="display: none;">
-      <label><input type="radio" name="isomer" value="cis" checked> Cis</label>
-      <label><input type="radio" name="isomer" value="trans"> Trans</label>
-      <label><input type="radio" name="isomer" value="fac"> Fac</label>
-      <label><input type="radio" name="isomer" value="mer"> Mer</label>
+    <div class="control-group" id="isomer-group" style="display: none;">
+      <label>Isomer</label>
+      <select id="isomer-select">
+        <!-- populated dynamically -->
+      </select>
     </div>
   </div>
 
-  <svg id="geometry-svg" width="300" height="300" viewBox="-150 -150 300 300">
-    <g id="ligands-group"></g>
-    <circle cx="0" cy="0" r="20" fill="#666" />
-    <text x="0" y="5" fill="#fff" text-anchor="middle" font-size="14">M</text>
-  </svg>
+  <div class="visual-pane">
+    <svg id="geometry-svg" viewBox="-200 -200 400 400" width="100%" height="100%">
+      <!-- Rendered dynamically -->
+    </svg>
+  </div>
 </div>
 
-<script>
-  const select = document.getElementById('geometry-select');
-  const isomerOptions = document.getElementById('isomer-options');
-  const svgGroup = document.getElementById('ligands-group');
-  const radios = document.querySelectorAll('input[name="isomer"]');
+<script is:inline>
+  function drawGeometry() {
+    const geom = document.getElementById('geometry-select').value;
+    const isomerGroup = document.getElementById('isomer-group');
+    const isomerSelect = document.getElementById('isomer-select');
+    const svg = document.getElementById('geometry-svg');
+    
+    let isomer = isomerSelect.value;
+    
+    // Manage isomer dropdown
+    if (geom === 'square-planar') {
+      isomerGroup.style.display = 'flex';
+      if (!['cis', 'trans'].includes(isomer)) {
+        isomerSelect.innerHTML = '<option value="cis">Cis [MA₂B₂]</option><option value="trans">Trans [MA₂B₂]</option>';
+        isomer = 'cis';
+      }
+    } else if (geom === 'octahedral') {
+      isomerGroup.style.display = 'flex';
+      if (!['cis', 'trans', 'fac', 'mer'].includes(isomer)) {
+        isomerSelect.innerHTML = '<option value="cis">Cis [MA₄B₂]</option><option value="trans">Trans [MA₄B₂]</option><option value="fac">Facial [MA₃B₃]</option><option value="mer">Meridional [MA₃B₃]</option>';
+        isomer = 'cis';
+      }
+    } else {
+      isomerGroup.style.display = 'none';
+      isomerSelect.innerHTML = '';
+      isomer = null;
+    }
+    
+    // Drawing setup
+    let svgContent = '';
+    const centerColor = '#888';
+    
+    const drawBond = (x, y, isWedge=false, isDash=false) => {
+      if (isWedge) {
+        return `<polygon points="0,0 ${x-5},${y} ${x+5},${y}" fill="#bbb"/>`;
+      } else if (isDash) {
+        let dashes = '';
+        for(let i=1; i<=5; i++) {
+          const dx = (x/5)*i;
+          const dy = (y/5)*i;
+          dashes += `<line x1="${dx-3}" y1="${dy-3}" x2="${dx+3}" y2="${dy+3}" stroke="#666" stroke-width="2"/>`;
+        }
+        return `<line x1="0" y1="0" x2="${x}" y2="${y}" stroke="#444" stroke-width="2" stroke-dasharray="4"/>`;
+      }
+      return `<line x1="0" y1="0" x2="${x}" y2="${y}" stroke="#666" stroke-width="2"/>`;
+    };
+    
+    const drawLigand = (x, y, type) => {
+      const color = type === 'A' ? '#3498db' : (type === 'B' ? '#e74c3c' : '#bdc3c7');
+      return `
+        <circle cx="${x}" cy="${y}" r="20" fill="${color}" stroke="#222" stroke-width="2"/>
+        <text x="${x}" y="${y+5}" fill="#fff" font-size="14" font-weight="bold" text-anchor="middle">${type}</text>
+      `;
+    };
 
-  function draw() {
-    const geom = select.value;
-    let selectedIsomer = 'cis';
-    radios.forEach(r => { if (r.checked) selectedIsomer = r.value; });
-    
-    svgGroup.innerHTML = '';
-    
-    let ligands = [];
+    let ligands = []; // {x, y, type, bond: 'normal'|'wedge'|'dash'}
+
     if (geom === 'linear') {
-      isomerOptions.style.display = 'none';
-      ligands = [{x: -100, y: 0, label: 'L'}, {x: 100, y: 0, label: 'L'}];
-    } else if (geom === 'square-planar') {
-      isomerOptions.style.display = 'block';
-      radios.forEach(r => r.disabled = ['fac', 'mer'].includes(r.value));
       ligands = [
-        {x: -80, y: -40, label: 'L'}, {x: 80, y: 40, label: 'L'},
-        {x: 40, y: -80, label: 'L'}, {x: -40, y: 80, label: 'L'}
+        {x: -120, y: 0, type: 'L', bond: 'normal'},
+        {x: 120, y: 0, type: 'L', bond: 'normal'}
       ];
     } else if (geom === 'tetrahedral') {
-      isomerOptions.style.display = 'none';
       ligands = [
-        {x: 0, y: -100, label: 'L'}, {x: -80, y: 50, label: 'L'},
-        {x: 80, y: 50, label: 'L'}, {x: 0, y: 80, label: 'L'}
+        {x: 0, y: -120, type: 'L', bond: 'normal'},
+        {x: 0, y: 40, type: 'L', bond: 'normal'}, // just visual separation
+        {x: -100, y: 80, type: 'L', bond: 'wedge'},
+        {x: 100, y: 60, type: 'L', bond: 'dash'}
       ];
+    } else if (geom === 'square-planar') {
+      if (isomer === 'cis') {
+        ligands = [
+          {x: -100, y: -60, type: 'A', bond: 'wedge'}, {x: 100, y: -60, type: 'A', bond: 'dash'},
+          {x: -100, y: 60, type: 'B', bond: 'wedge'}, {x: 100, y: 60, type: 'B', bond: 'dash'}
+        ];
+      } else { // trans
+        ligands = [
+          {x: -100, y: -60, type: 'A', bond: 'wedge'}, {x: 100, y: -60, type: 'B', bond: 'dash'},
+          {x: -100, y: 60, type: 'B', bond: 'wedge'}, {x: 100, y: 60, type: 'A', bond: 'dash'}
+        ];
+      }
     } else if (geom === 'octahedral') {
-      isomerOptions.style.display = 'block';
-      radios.forEach(r => r.disabled = false);
-      ligands = [
-        {x: 0, y: -100, label: 'L'}, {x: 0, y: 100, label: 'L'},
-        {x: -80, y: -40, label: 'L'}, {x: 80, y: 40, label: 'L'},
-        {x: -40, y: 80, label: 'L'}, {x: 40, y: -80, label: 'L'}
-      ];
+      if (isomer === 'cis') {
+        ligands = [
+          {x: 0, y: -140, type: 'B', bond: 'normal'}, {x: 0, y: 140, type: 'A', bond: 'normal'}, // axial
+          {x: -100, y: -40, type: 'A', bond: 'dash'}, {x: 100, y: -40, type: 'B', bond: 'dash'}, // back
+          {x: -100, y: 40, type: 'A', bond: 'wedge'}, {x: 100, y: 40, type: 'A', bond: 'wedge'} // front
+        ];
+      } else if (isomer === 'trans') {
+        ligands = [
+          {x: 0, y: -140, type: 'B', bond: 'normal'}, {x: 0, y: 140, type: 'B', bond: 'normal'}, // axial
+          {x: -100, y: -40, type: 'A', bond: 'dash'}, {x: 100, y: -40, type: 'A', bond: 'dash'}, // back
+          {x: -100, y: 40, type: 'A', bond: 'wedge'}, {x: 100, y: 40, type: 'A', bond: 'wedge'} // front
+        ];
+      } else if (isomer === 'fac') {
+        ligands = [
+          {x: 0, y: -140, type: 'A', bond: 'normal'}, {x: 0, y: 140, type: 'B', bond: 'normal'}, // axial
+          {x: -100, y: -40, type: 'B', bond: 'dash'}, {x: 100, y: -40, type: 'B', bond: 'dash'}, // back
+          {x: -100, y: 40, type: 'A', bond: 'wedge'}, {x: 100, y: 40, type: 'A', bond: 'wedge'} // front
+        ];
+      } else if (isomer === 'mer') {
+        ligands = [
+          {x: 0, y: -140, type: 'A', bond: 'normal'}, {x: 0, y: 140, type: 'B', bond: 'normal'}, // axial
+          {x: -100, y: -40, type: 'A', bond: 'dash'}, {x: 100, y: -40, type: 'B', bond: 'dash'}, // back
+          {x: -100, y: 40, type: 'A', bond: 'wedge'}, {x: 100, y: 40, type: 'B', bond: 'wedge'} // front
+        ];
+      }
     }
 
+    // Draw bonds
     ligands.forEach(l => {
-      svgGroup.innerHTML += `<line x1="0" y1="0" x2="${l.x}" y2="${l.y}" stroke="#333" stroke-width="2"/>`;
-      svgGroup.innerHTML += `<circle cx="${l.x}" cy="${l.y}" r="15" fill="#111" stroke="#333" stroke-width="1"/>`;
-      svgGroup.innerHTML += `<text x="${l.x}" y="${l.y+5}" fill="#fff" text-anchor="middle" font-size="12">${l.label}</text>`;
+      svgContent += drawBond(l.x, l.y, l.bond==='wedge', l.bond==='dash');
     });
+    
+    // Draw Metal
+    svgContent += `
+      <circle cx="0" cy="0" r="25" fill="${centerColor}" stroke="#222" stroke-width="2"/>
+      <text x="0" y="6" fill="#000" font-size="16" font-weight="bold" text-anchor="middle">M</text>
+    `;
+    
+    // Draw Ligands
+    ligands.forEach(l => {
+      svgContent += drawLigand(l.x, l.y, l.type);
+    });
+    
+    svg.innerHTML = svgContent;
   }
-  
-  select.addEventListener('change', draw);
-  radios.forEach(r => r.addEventListener('change', draw));
-  draw();
+
+  document.getElementById('geometry-select').addEventListener('change', drawGeometry);
+  document.getElementById('isomer-select').addEventListener('change', drawGeometry);
+  document.addEventListener("DOMContentLoaded", drawGeometry);
 </script>
 
 <style>
   .geometry-viewer {
-    background: #000;
-    color: #fff;
-    font-family: sans-serif;
-    padding: 20px;
-    border: 1px solid #333;
-    border-radius: 8px;
-    max-width: 100%;
-    margin: 0 auto;
-    text-align: center;
+    padding: 1rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
-  .controls { margin-bottom: 20px; }
-  select { background: #111; color: #fff; border: 1px solid #333; padding: 5px; }
-  input[type="radio"] { margin-left: 10px; }
-  svg { display: block; margin: 0 auto; background: #000; }
+  .controls {
+    display: flex;
+    gap: 1rem;
+    background: #050505;
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid #222;
+    margin-bottom: 2rem;
+  }
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+  .control-group label {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+  }
+  .control-group select {
+    background: #111;
+    color: #e0e0e0;
+    border: 1px solid #333;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-family: inherit;
+    outline: none;
+  }
+  .visual-pane {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #000;
+  }
 </style>

@@ -9,6 +9,7 @@ import GeometryViewer from '../components/visuals/GeometryViewer.astro';
 import IsomerismViewer from '../components/visuals/IsomerismViewer.astro';
 import NamingBuilder from '../components/visuals/NamingBuilder.astro';
 import WernerExperiment from '../components/visuals/WernerExperiment.astro';
+import EANCalculator from '../components/visuals/EANCalculator.astro';
 
 const getVisualComponent = (visualName: string) => {
 	switch(visualName) {
@@ -16,6 +17,7 @@ const getVisualComponent = (visualName: string) => {
 		case 'naming-builder': return NamingBuilder;
 		case 'geometry-viewer': return GeometryViewer;
 		case 'isomerism-viewer': return IsomerismViewer;
+		case 'ean-calculator': return EANCalculator;
 		case 'cft-diagram': return CFTDiagram;
 		case 'colour-wheel': return ColourWheel;
 		default: return null;
@@ -38,6 +40,7 @@ const getVisualComponent = (visualName: string) => {
 				<section class="concept-card" id={concept.id}>
 					<h3>{concept.title}</h3>
 					<p class="summary">{concept.summary}</p>
+					<hr class="divider"/>
 					
 					{Visual && (
 						<div class="visual-container">
@@ -139,5 +142,13 @@ const getVisualComponent = (visualName: string) => {
 		font-weight: 500;
 		margin-bottom: 0.5rem;
 		color: #fff;
+	}
+</style>
+
+<style>
+	.divider {
+		border: 0;
+		border-top: 1px dashed var(--border);
+		margin: 1.5rem 0;
 	}
 </style>

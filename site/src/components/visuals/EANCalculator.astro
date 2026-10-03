@@ -1,0 +1,166 @@
+---
+---
+<div class="ean-calculator">
+  <div class="controls">
+    <div class="control-group">
+      <label>Metal</label>
+      <select id="ean-metal">
+        <option value="24">Cr (24)</option>
+        <option value="25">Mn (25)</option>
+        <option value="26" selected>Fe (26)</option>
+        <option value="27">Co (27)</option>
+        <option value="28">Ni (28)</option>
+        <option value="29">Cu (29)</option>
+        <option value="30">Zn (30)</option>
+        <option value="46">Pd (46)</option>
+        <option value="78">Pt (78)</option>
+      </select>
+    </div>
+    <div class="control-group">
+      <label>Oxidation State (O.S.)</label>
+      <input type="number" id="ean-os" value="2" min="-4" max="8" />
+    </div>
+    <div class="control-group">
+      <label>Coordination No. (C.N.)</label>
+      <input type="number" id="ean-cn" value="6" min="1" max="8" />
+    </div>
+  </div>
+  
+  <div class="ean-formula-display">
+    <div class="formula-row">
+      <span class="term">Z</span> - 
+      <span class="term">O.S.</span> + 
+      <span class="term">(2 × C.N.)</span> = 
+      <span class="term highlight">EAN</span>
+    </div>
+    <div class="formula-row values">
+      <span class="val" id="val-z">26</span> - 
+      <span class="val" id="val-os">2</span> + 
+      <span class="val" id="val-cn">(2 × 6)</span> = 
+      <span class="val highlight" id="val-ean">36</span>
+    </div>
+  </div>
+  
+  <div class="ean-result" id="ean-result">
+    Matches Krypton (Kr, 36) — Highly Stable!
+  </div>
+</div>
+
+<script is:inline>
+  function calculateEAN() {
+    const z = parseInt(document.getElementById('ean-metal').value);
+    const os = parseInt(document.getElementById('ean-os').value);
+    const cn = parseInt(document.getElementById('ean-cn').value);
+    
+    document.getElementById('val-z').innerText = z;
+    document.getElementById('val-os').innerText = os;
+    document.getElementById('val-cn').innerText = `(2 × ${cn})`;
+    
+    const ean = z - os + (2 * cn);
+    document.getElementById('val-ean').innerText = ean;
+    
+    const resultDiv = document.getElementById('ean-result');
+    if (ean === 36) {
+      resultDiv.innerText = "Matches Krypton (Kr, 36) — Highly Stable!";
+      resultDiv.className = "ean-result stable";
+    } else if (ean === 54) {
+      resultDiv.innerText = "Matches Xenon (Xe, 54) — Highly Stable!";
+      resultDiv.className = "ean-result stable";
+    } else if (ean === 86) {
+      resultDiv.innerText = "Matches Radon (Rn, 86) — Highly Stable!";
+      resultDiv.className = "ean-result stable";
+    } else {
+      resultDiv.innerText = `Does not match a noble gas (Nearest is ${ean < 45 ? 36 : ean < 70 ? 54 : 86})`;
+      resultDiv.className = "ean-result unstable";
+    }
+  }
+
+  document.querySelectorAll('#ean-metal, #ean-os, #ean-cn').forEach(el => {
+    el.addEventListener('input', calculateEAN);
+  });
+  
+  document.addEventListener("DOMContentLoaded", calculateEAN);
+</script>
+
+<style>
+  .ean-calculator {
+    padding: 1rem;
+  }
+  .controls {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background: #050505;
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid #222;
+    margin-bottom: 2rem;
+  }
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+  }
+  .control-group label {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+  }
+  .control-group select, .control-group input {
+    background: #111;
+    color: #e0e0e0;
+    border: 1px solid #333;
+    padding: 0.5rem;
+    border-radius: 4px;
+    outline: none;
+    font-family: monospace;
+  }
+  .ean-formula-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    font-family: monospace;
+    font-size: 1.5rem;
+    background: #0a0a0a;
+    padding: 2rem;
+    border-radius: 8px;
+    border: 1px dashed #333;
+  }
+  .formula-row {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    color: #888;
+  }
+  .formula-row.values {
+    color: #fff;
+    font-size: 2rem;
+  }
+  .term, .val {
+    min-width: 60px;
+    text-align: center;
+  }
+  .highlight {
+    color: #fff;
+    font-weight: bold;
+  }
+  .ean-result {
+    margin-top: 2rem;
+    text-align: center;
+    padding: 1rem;
+    border-radius: 4px;
+    font-weight: 500;
+  }
+  .stable {
+    background: rgba(46, 204, 113, 0.1);
+    color: #2ecc71;
+    border: 1px solid rgba(46, 204, 113, 0.2);
+  }
+  .unstable {
+    background: rgba(231, 76, 60, 0.1);
+    color: #e74c3c;
+    border: 1px solid rgba(231, 76, 60, 0.2);
+  }
+</style>

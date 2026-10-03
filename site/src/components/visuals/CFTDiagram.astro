@@ -1,89 +1,267 @@
 ---
 ---
 <div class="cft-diagram">
-  <h2>Crystal Field Theory Diagram</h2>
   <div class="controls">
-    <select id="cft-metal">
-      <option value="6">Fe²⁺ (d⁶)</option>
-      <option value="5">Fe³⁺ (d⁵)</option>
-      <option value="7">Co²⁺ (d⁷)</option>
-      <option value="6">Co³⁺ (d⁶)</option>
-      <option value="8">Ni²⁺ (d⁸)</option>
-      <option value="9">Cu²⁺ (d⁹)</option>
-      <option value="3">Cr³⁺ (d³)</option>
-      <option value="5">Mn²⁺ (d⁵)</option>
-    </select>
-    <select id="cft-geometry">
-      <option value="Oh">Octahedral (Oh)</option>
-      <option value="Td">Tetrahedral (Td)</option>
-    </select>
-    <select id="cft-ligand">
-      <option value="strong">Strong Field (CN⁻, CO)</option>
-      <option value="weak">Weak Field (H₂O, Cl⁻)</option>
-    </select>
+    <div class="control-group">
+      <label>Metal Ion (d-electrons)</label>
+      <select id="cft-metal">
+        <option value="1">Ti³⁺ (d¹)</option>
+        <option value="2">V³⁺ (d²)</option>
+        <option value="3">Cr³⁺ (d³)</option>
+        <option value="4">Mn³⁺ (d⁴)</option>
+        <option value="5">Fe³⁺ (d⁵)</option>
+        <option value="6" selected>Fe²⁺ (d⁶)</option>
+        <option value="7">Co²⁺ (d⁷)</option>
+        <option value="8">Ni²⁺ (d⁸)</option>
+        <option value="9">Cu²⁺ (d⁹)</option>
+        <option value="10">Zn²⁺ (d¹⁰)</option>
+      </select>
+    </div>
+    <div class="control-group">
+      <label>Geometry</label>
+      <select id="cft-geometry">
+        <option value="Oh">Octahedral (Oh)</option>
+        <option value="Td">Tetrahedral (Td)</option>
+      </select>
+    </div>
+    <div class="control-group">
+      <label>Ligand Field</label>
+      <select id="cft-ligand">
+        <option value="strong">Strong Field (e.g. CN⁻, CO)</option>
+        <option value="weak">Weak Field (e.g. H₂O, F⁻)</option>
+      </select>
+    </div>
   </div>
   
-  <div id="cft-stats"></div>
-  
-  <svg id="cft-svg" width="400" height="300" viewBox="0 0 400 300">
-    <g id="orbital-levels"></g>
-  </svg>
-  
-  <div class="spectrochemical-series">
-    I⁻ &lt; Br⁻ &lt; S²⁻ &lt; SCN⁻ &lt; Cl⁻ &lt; N₃⁻ &lt; F⁻ &lt; OH⁻ &lt; C₂O₄²⁻ &lt; O²⁻ &lt; H₂O &lt; NCS⁻ &lt; py &lt; NH₃ &lt; en &lt; NO₂⁻ &lt; CN⁻ &lt; CO
+  <div class="cft-display">
+    <svg id="cft-svg" viewBox="0 0 400 300" width="100%" height="100%">
+      <!-- Dynamic SVG content -->
+    </svg>
+    <div id="cft-stats" class="cft-stats">
+      <!-- Dynamic stats -->
+    </div>
   </div>
 </div>
 
-<script>
-  function updateCFT() {
+<script is:inline>
+  function drawCFT() {
     const dCount = parseInt(document.getElementById('cft-metal').value);
     const geometry = document.getElementById('cft-geometry').value;
     const ligand = document.getElementById('cft-ligand').value;
     
-    // Simulate pairing logic
-    let unpaired = 0;
-    let cfse = 0;
-    let spinLabel = "High/Low Spin";
+    // Logic for electron configuration
+    let lowerOrbitals = 0; // Oh: t2g (3), Td: e (2)
+    let upperOrbitals = 0; // Oh: eg (2), Td: t2 (3)
+    let isHighSpin = false;
     
     if (geometry === 'Oh') {
-      if (ligand === 'strong' && dCount >= 4 && dCount <= 7) spinLabel = "Low Spin";
-      else spinLabel = "High Spin";
-      unpaired = dCount % 2; // placeholder mock logic
+      lowerOrbitals = 3;
+      upperOrbitals = 2;
+      isHighSpin = ligand === 'weak';
+    } else {
+      lowerOrbitals = 2;
+      upperOrbitals = 3;
+      isHighSpin = true; // Td is almost always high spin
     }
+    
+    let lowerFill = [0, 0, 0].slice(0, lowerOrbitals);
+    let upperFill = [0, 0, 0].slice(0, upperOrbitals);
+    
+    let remaining = dCount;
+    
+    // Fill 1 each in lower
+    for(let i=0; i<lowerOrbitals && remaining > 0; i++) { lowerFill[i]++; remaining--; }
+    
+    if (isHighSpin) {
+      // Fill 1 each in upper
+      for(let i=0; i<upperOrbitals && remaining > 0; i++) { upperFill[i]++; remaining--; }
+      // Pair in lower
+      for(let i=0; i<lowerOrbitals && remaining > 0; i++) { lowerFill[i]++; remaining--; }
+      // Pair in upper
+      for(let i=0; i<upperOrbitals && remaining > 0; i++) { upperFill[i]++; remaining--; }
+    } else {
+      // Pair in lower first
+      for(let i=0; i<lowerOrbitals && remaining > 0; i++) { lowerFill[i]++; remaining--; }
+      // Fill 1 each in upper
+      for(let i=0; i<upperOrbitals && remaining > 0; i++) { upperFill[i]++; remaining--; }
+      // Pair in upper
+      for(let i=0; i<upperOrbitals && remaining > 0; i++) { upperFill[i]++; remaining--; }
+    }
+    
+    // Calculate stats
+    let unpaired = 0;
+    lowerFill.forEach(e => { if(e===1) unpaired++; });
+    upperFill.forEach(e => { if(e===1) unpaired++; });
     
     const mu = Math.sqrt(unpaired * (unpaired + 2)).toFixed(2);
-    document.getElementById('cft-stats').innerHTML = `
-      <p>Unpaired Electrons: ${unpaired}</p>
-      <p>Spin-Only Moment (μ): ${mu} BM</p>
-      <p>State: ${spinLabel}</p>
+    
+    let cfse = 0;
+    if (geometry === 'Oh') {
+      const n_t2g = lowerFill.reduce((a,b)=>a+b,0);
+      const n_eg = upperFill.reduce((a,b)=>a+b,0);
+      cfse = (-0.4 * n_t2g + 0.6 * n_eg).toFixed(1);
+    } else {
+      const n_e = lowerFill.reduce((a,b)=>a+b,0);
+      const n_t2 = upperFill.reduce((a,b)=>a+b,0);
+      cfse = (-0.6 * n_e + 0.4 * n_t2).toFixed(1);
+    }
+    
+    // Draw SVG
+    const svg = document.getElementById('cft-svg');
+    let svgContent = `
+      <!-- Barycenter -->
+      <line x1="50" y1="150" x2="350" y2="150" stroke="#333" stroke-width="1" stroke-dasharray="4"/>
+      <text x="360" y="153" fill="#666" font-size="12">Barycenter</text>
     `;
     
-    const svg = document.getElementById('orbital-levels');
-    svg.innerHTML = `
-      <line x1="100" y1="150" x2="300" y2="150" stroke="#333" stroke-dasharray="4"/>
-      <text x="200" y="145" fill="#fff" text-anchor="middle" font-size="12">Barycenter</text>
-    `;
+    const drawOrbital = (x, y, electrons, label) => {
+      let content = `<rect x="${x-15}" y="${y-10}" width="30" height="20" fill="transparent" stroke="#555" stroke-width="1"/>`;
+      if (electrons > 0) content += `<path d="M${x-5} ${y+5} L${x-5} ${y-5} L${x-9} ${y-1}" fill="none" stroke="#fff" stroke-width="1.5"/>`;
+      if (electrons > 1) content += `<path d="M${x+5} ${y-5} L${x+5} ${y+5} L${x+1} ${y+1}" fill="none" stroke="#fff" stroke-width="1.5"/>`;
+      content += `<text x="${x}" y="${y+22}" fill="#888" font-size="10" text-anchor="middle">${label}</text>`;
+      return content;
+    };
+    
     if (geometry === 'Oh') {
-      svg.innerHTML += `
-        <rect x="150" y="50" width="40" height="20" fill="none" stroke="#fff"/>
-        <rect x="210" y="50" width="40" height="20" fill="none" stroke="#fff"/>
-        <text x="200" y="40" fill="#fff" text-anchor="middle">eg</text>
-        
-        <rect x="120" y="220" width="40" height="20" fill="none" stroke="#fff"/>
-        <rect x="180" y="220" width="40" height="20" fill="none" stroke="#fff"/>
-        <rect x="240" y="220" width="40" height="20" fill="none" stroke="#fff"/>
-        <text x="200" y="260" fill="#fff" text-anchor="middle">t2g</text>
-      `;
+      // eg (upper)
+      svgContent += drawOrbital(170, 70, upperFill[0], 'dx²-y²');
+      svgContent += drawOrbital(230, 70, upperFill[1], 'dz²');
+      svgContent += `<path d="M120 150 L170 70 M120 150 L230 70" fill="none" stroke="#333" stroke-width="1" stroke-dasharray="2"/>`;
+      svgContent += `<text x="260" y="73" fill="#888" font-size="12">+0.6 Δo</text>`;
+      
+      // t2g (lower)
+      svgContent += drawOrbital(140, 230, lowerFill[0], 'dxy');
+      svgContent += drawOrbital(200, 230, lowerFill[1], 'dyz');
+      svgContent += drawOrbital(260, 230, lowerFill[2], 'dxz');
+      svgContent += `<path d="M120 150 L140 230 M120 150 L200 230 M120 150 L260 230" fill="none" stroke="#333" stroke-width="1" stroke-dasharray="2"/>`;
+      svgContent += `<text x="290" y="233" fill="#888" font-size="12">-0.4 Δo</text>`;
+      
+      // Initial 5d
+      svgContent += `<text x="40" y="110" fill="#aaa" font-size="12">Spherical Field</text>`;
+      for(let i=0; i<5; i++) {
+         let count = dCount > i ? (dCount > i+5 ? 2 : 1) : 0;
+         svgContent += drawOrbital(40 + (i-2)*20, 150, count, '');
+      }
+    } else {
+      // t2 (upper)
+      svgContent += drawOrbital(140, 70, upperFill[0], 'dxy');
+      svgContent += drawOrbital(200, 70, upperFill[1], 'dyz');
+      svgContent += drawOrbital(260, 70, upperFill[2], 'dxz');
+      svgContent += `<text x="290" y="73" fill="#888" font-size="12">+0.4 Δt</text>`;
+      
+      // e (lower)
+      svgContent += drawOrbital(170, 230, lowerFill[0], 'dx²-y²');
+      svgContent += drawOrbital(230, 230, lowerFill[1], 'dz²');
+      svgContent += `<text x="260" y="233" fill="#888" font-size="12">-0.6 Δt</text>`;
+      
+      // connecting lines
+      svgContent += `<path d="M120 150 L140 70 M120 150 L200 70 M120 150 L260 70 M120 150 L170 230 M120 150 L230 230" fill="none" stroke="#333" stroke-width="1" stroke-dasharray="2"/>`;
     }
+    
+    svg.innerHTML = svgContent;
+    
+    document.getElementById('cft-stats').innerHTML = `
+      <div class="stat-box">
+        <span class="stat-label">Spin State</span>
+        <span class="stat-value">${isHighSpin ? 'High Spin' : 'Low Spin'}</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">Unpaired Electrons (n)</span>
+        <span class="stat-value">${unpaired}</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">Magnetic Moment (μ)</span>
+        <span class="stat-value">${mu} B.M.</span>
+      </div>
+      <div class="stat-box">
+        <span class="stat-label">CFSE</span>
+        <span class="stat-value">${cfse} ${geometry==='Oh' ? 'Δo' : 'Δt'}</span>
+      </div>
+    `;
   }
 
-  document.querySelectorAll('select').forEach(s => s.addEventListener('change', updateCFT));
-  updateCFT();
+  document.querySelectorAll('#cft-metal, #cft-geometry, #cft-ligand').forEach(el => {
+    el.addEventListener('change', drawCFT);
+  });
+  
+  // Initialize
+  document.addEventListener("DOMContentLoaded", drawCFT);
 </script>
 
 <style>
-  .cft-diagram { background: #000; color: #fff; padding: 20px; border: 1px solid #333; text-align: center; }
-  .controls select { background: #111; color: #fff; border: 1px solid #333; margin: 5px; padding: 5px; }
-  .spectrochemical-series { margin-top: 15px; font-size: 12px; color: #aaa; overflow-x: auto; white-space: nowrap; border-top: 1px solid #333; padding-top: 10px; }
-  svg { background: #050505; border: 1px solid #333; margin-top: 10px; }
+  .cft-diagram {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    padding: 1rem;
+    height: 100%;
+  }
+  .controls {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    background: #050505;
+    padding: 1rem;
+    border-radius: 6px;
+    border: 1px solid #222;
+  }
+  .control-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    flex: 1;
+    min-width: 150px;
+  }
+  .control-group label {
+    font-size: 0.8rem;
+    color: #888;
+    text-transform: uppercase;
+  }
+  .control-group select {
+    background: #111;
+    color: #e0e0e0;
+    border: 1px solid #333;
+    padding: 0.5rem;
+    border-radius: 4px;
+    font-family: inherit;
+    outline: none;
+  }
+  .control-group select:focus {
+    border-color: #888;
+  }
+  .cft-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+  #cft-svg {
+    max-width: 500px;
+    background: #000;
+  }
+  .cft-stats {
+    display: flex;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
+    padding-top: 1.5rem;
+    border-top: 1px dashed #222;
+  }
+  .stat-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.25rem;
+  }
+  .stat-label {
+    font-size: 0.75rem;
+    color: #888;
+    text-transform: uppercase;
+  }
+  .stat-value {
+    font-size: 1.2rem;
+    color: #fff;
+    font-family: monospace;
+  }
 </style>
