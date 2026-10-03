@@ -4,10 +4,12 @@ import cheatsheet from '../data/cheatsheet.json';
 ---
 
 <Layout title="Cheat Sheet | Coordination Compounds">
+	
 	<div class="hero">
-		<h2>cheat sheet</h2>
-		<p class="subtitle">Quick reference guide.</p>
+		<h2 class="animate-title">cheat sheet</h2>
+		<p class="subtitle animate-subtitle">Quick reference guide.</p>
 	</div>
+
 	
 	<section class="concept-card">
 		<h3>nomenclature rules</h3>
@@ -70,6 +72,44 @@ import cheatsheet from '../data/cheatsheet.json';
 </Layout>
 
 <style>
+
+	/* Text Entry Animations */
+	.animate-title {
+		opacity: 0;
+		transform: translateY(20px);
+		animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+		font-size: 2.8rem;
+		color: #fff;
+	}
+	.animate-subtitle {
+		opacity: 0;
+		transform: translateY(20px);
+		animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.2s forwards;
+		font-size: 1.1rem;
+		margin-top: 1rem;
+	}
+	
+	@keyframes fadeUp {
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+	
+	/* Card Enhancements */
+	.concept-card {
+		border: 1px solid var(--border);
+		padding: 2rem;
+		margin-bottom: 3rem;
+		border-radius: 8px;
+		background: #050505;
+		transition: transform 0.3s ease, border-color 0.3s ease;
+	}
+	.concept-card:hover {
+		transform: translateY(-4px);
+		border-color: #555;
+	}
+
 	.hero { margin-bottom: 3rem; }
 	.subtitle { color: var(--accent); }
 	
