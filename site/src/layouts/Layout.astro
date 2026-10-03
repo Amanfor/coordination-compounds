@@ -24,8 +24,30 @@ const { title } = Astro.props;
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
 		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
 		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
-			onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true}], throwOnError: false});"></script>
+			></script>
+	
+		<script is:inline>
+			document.addEventListener("DOMContentLoaded", function() {
+				const render = () => {
+					if (typeof renderMathInElement !== 'undefined') {
+						renderMathInElement(document.body, {
+							delimiters: [
+								{left: '$$', right: '$$', display: true},
+								{left: '$', right: '$', display: false},
+								{left: '\\(', right: '\\)', display: false},
+								{left: '\\[', right: '\\]', display: true}
+							],
+							throwOnError: false
+						});
+					} else {
+						setTimeout(render, 100);
+					}
+				};
+				render();
+			});
+		</script>
 	</head>
+
 	<body>
 		<header>
 			<h1><a href="/coordination-compounds/">coordination compounds</a></h1>
