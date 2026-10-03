@@ -1,7 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import conceptsData from '../data/concepts.json';
-import questionsData from '../data/questions.json';
+import { getCollection, render } from 'astro:content';
 
 import CFTDiagram from '../components/visuals/CFTDiagram.astro';
 import ColourWheel from '../components/visuals/ColourWheel.astro';
@@ -10,7 +9,13 @@ import IsomerismViewer from '../components/visuals/IsomerismViewer.astro';
 import NamingBuilder from '../components/visuals/NamingBuilder.astro';
 import WernerExperiment from '../components/visuals/WernerExperiment.astro';
 
-const getVisualComponent = (visualName: string) => {
+const allConcepts = await getCollection('concepts');
+// Sort by order if defined
+allConcepts.sort((a, b) => (a.data.order || 99) - (b.data.order || 99));
+
+const allQuestions = await getCollection('questions');
+
+const getVisualComponent = (visualName: string | undefined) => {
 	switch(visualName) {
 		case 'werner-experiment': return WernerExperiment;
 		case 'naming-builder': return NamingBuilder;
@@ -23,146 +28,154 @@ const getVisualComponent = (visualName: string) => {
 };
 ---
 
-<Layout title="Coordination Compounds">
-	<div class="hero reveal">
-		<h2>coordination<br/>chemistry.</h2>
-		<p class="subtitle">A visual, intuitive approach to mastering complexes for JEE Advanced.</p>
-	</div>
+<Layout title="Coordination Chemistry">
+	<section class="hero min-h-screen flex flex-col justify-center items-center text-center relative px-4">
+		<h1 class="gsap-reveal overflow-hidden flex flex-col font-serif text-[clamp(4rem,10vw,12rem)] leading-[0.9] tracking-tighter italic mb-8 z-10 mix-blend-difference text-white">
+			<span class="block translate-y-[120%] opacity-0">Coordination</span>
+			<span class="block translate-y-[120%] opacity-0">Chemistry.</span>
+		</h1>
+		<p class="gsap-fade-in opacity-0 text-white/50 text-xl md:text-2xl max-w-2xl font-light tracking-wide z-10 font-sans">
+			A highly interactive, deeply visual approach to mastering complex chemistry structures for JEE Advanced.
+		</p>
+		
+		<div class="scroll-indicator absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 opacity-0">
+			<span class="text-[10px] uppercase tracking-[0.3em] text-white/30 font-sans">Scroll to explore</span>
+			<div class="w-[1px] h-16 bg-gradient-to-b from-white/30 to-transparent"></div>
+		</div>
+	</section>
 	
-	<div class="concept-list">
-		{conceptsData.sort((a, b) => a.order - b.order).map(concept => {
-			const Visual = getVisualComponent(concept.visual || '');
-			const conceptQuestions = questionsData.filter((q: any) => q.concept === concept.id);
-			
-			return (
-				<section class="concept-card reveal" id={concept.id}>
-					<h3>{concept.title}</h3>
-					<p class="concept-summary">{concept.summary}</p>
-					
-					{Visual && (
-						<div class="visual-container">
-							<Visual />
-						</div>
-					)}
-					
-					<div class="concept-body" set:html={concept.body.replace(/\n/g, '<br/>')} />
-					
-					{conceptQuestions.length > 0 && (
-						<div class="questions-section">
-							<h4>JEE Mains Pattern Questions</h4>
-							<p class="muted">Test your understanding of {concept.title.toLowerCase()}.</p>
-							{conceptQuestions.map((q: any, i: number) => (
-								<div class="question-block">
-									<div class="q-header">
-										<span class="q-number">Q{i+1}</span>
-										{q.source && <span class="q-source">{q.source}</span>}
-									</div>
-									<div class="q-text" set:html={q.question.replace(/\n/g, '<br/>')} />
-									{q.options && q.options.length > 0 && (
-										<ul class="options-list">
-											{q.options.map((opt: string, j: number) => (
-												<li><span class="opt-label">{String.fromCharCode(65+j)}</span> <span set:html={opt} /></li>
-											))}
-										</ul>
-									)}
-									<button onclick={`const el = document.getElementById('sol-${q.id}'); if(el.style.display === 'block'){ el.style.display = 'none'; this.innerText='View Solution'; } else { el.style.display = 'block'; this.innerText='Hide Solution'; }`}>
-										View Solution
-									</button>
-									<div id={`sol-${q.id}`} class="solution">
-										<div class="ans-label">Correct Answer: <strong>{q.answer}</strong></div>
-										<div class="sol-text" set:html={q.solution.replace(/\n/g, '<br/>')} />
+	<section class="concepts-grid max-w-[1600px] mx-auto px-6 md:px-12 pb-32">
+		<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 auto-rows-[minmax(400px,_auto)]">
+			{allConcepts.map(async (concept, index) => {
+				const Visual = getVisualComponent(concept.data.visual);
+				const { Content } = await render(concept);
+				
+				// Identify questions for this concept
+				// Astro v4 has `concept.slug` but sometimes it's `concept.id`. We strip extension if id.
+				const conceptIdStr = concept.slug || concept.id.replace('.mdx', '').replace('.md', '');
+				const conceptQuestions = allQuestions.filter(q => q.data.concept === conceptIdStr);
+				
+				// Stagger sizes for Bento grid
+				const isLarge = index === 0 || index === 3 || index === 4;
+				const colSpan = isLarge ? 'md:col-span-2' : 'col-span-1';
+				
+				return (
+					<article class={`bento-card ${colSpan} relative rounded-[2rem] overflow-hidden border border-white/5 bg-white/[0.015] backdrop-blur-3xl group transition-all duration-700 hover:bg-white/[0.03] hover:border-white/10`}>
+						<!-- Background Parallax Layer -->
+						<div class="parallax-bg absolute inset-0 z-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-purple-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+						
+						<div class="relative z-10 p-8 md:p-14 h-full flex flex-col">
+							<div class="mb-auto">
+								<h3 class="text-4xl md:text-5xl font-serif italic mb-6 text-white group-hover:text-indigo-200 transition-colors duration-500 leading-tight">{concept.data.title}</h3>
+								<p class="text-indigo-200/60 text-lg mb-8 font-light font-sans max-w-2xl">{concept.data.summary}</p>
+							</div>
+							
+							{Visual && (
+								<div class="visual-wrapper my-10 rounded-2xl overflow-hidden border border-white/5 bg-black/50 min-h-[400px] relative transition-transform duration-1000 group-hover:scale-[1.01] flex items-center justify-center">
+									<Visual />
+								</div>
+							)}
+							
+							<div class="prose prose-invert prose-p:text-white/60 prose-headings:text-white/80 max-w-none mt-4 concept-content font-sans">
+								<Content />
+							</div>
+							
+							{conceptQuestions.length > 0 && (
+								<div class="mt-16 pt-8 border-t border-white/10">
+									<h4 class="text-xs uppercase tracking-[0.2em] text-white/40 mb-8 flex items-center gap-4 font-sans">
+										Practice Questions <span class="h-[1px] flex-1 bg-white/10"></span>
+									</h4>
+									<div class="space-y-6">
+										{conceptQuestions.slice(0,3).map(async (q, i) => {
+											const { Content: QContent } = await render(q);
+											return (
+												<div class="question-item bg-white/[0.02] rounded-2xl p-8 border border-white/5 hover:border-white/20 transition-all duration-500 cursor-pointer group/q">
+													<div class="flex justify-between items-center mb-6">
+														<span class="text-indigo-400/80 font-serif italic text-2xl group-hover/q:text-indigo-400 transition-colors">Q{i+1}</span>
+														{q.data.source && <span class="text-[10px] uppercase tracking-wider bg-white/5 px-3 py-1.5 rounded-full text-white/40 group-hover/q:text-white/60 transition-colors font-sans">{q.data.source}</span>}
+													</div>
+													<div class="text-white/70 font-light prose prose-invert font-sans text-lg leading-relaxed">
+														<QContent />
+													</div>
+													{q.data.options && q.data.options.length > 0 && (
+														<ul class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4 font-sans">
+															{q.data.options.map((opt, j) => (
+																<li class="bg-black/40 px-4 py-3 rounded-xl border border-white/5 text-white/60 text-sm flex gap-3 items-start">
+																	<span class="text-indigo-400/80 font-medium">{String.fromCharCode(65+j)}.</span>
+																	<span set:html={opt} />
+																</li>
+															))}
+														</ul>
+													)}
+												</div>
+											);
+										})}
 									</div>
 								</div>
-							))}
+							)}
 						</div>
-					)}
-				</section>
-			);
-		})}
-	</div>
+					</article>
+				);
+			})}
+		</div>
+	</section>
 </Layout>
 
-<style>
-	.hero {
-		padding: 4rem 0 8rem 0;
-	}
-	.subtitle {
-		font-size: 1.2rem;
-		color: var(--text-muted);
-		max-width: 600px;
-	}
-	.concept-summary {
-		font-size: 1.1rem;
-		color: var(--accent);
-		margin-bottom: 2rem;
-		font-style: italic;
-	}
-	.muted {
-		color: var(--text-muted);
-		font-size: 0.9rem;
-		margin-bottom: 2rem;
-	}
+<script>
+	import gsap from 'gsap';
+	import { ScrollTrigger } from 'gsap/ScrollTrigger';
+
+	gsap.registerPlugin(ScrollTrigger);
+
+	// Hero Animations
+	const heroTl = gsap.timeline();
 	
-	.q-header {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		margin-bottom: 1rem;
-	}
+	heroTl.to('.gsap-reveal span', {
+		y: 0,
+		opacity: 1,
+		duration: 1.5,
+		stagger: 0.15,
+		ease: 'power4.out',
+		delay: 0.2
+	})
+	.to('.gsap-fade-in, .scroll-indicator', {
+		opacity: 1,
+		duration: 1.5,
+		ease: 'power2.out'
+	}, "-=1");
+
+	// Bento Cards Parallax & Reveal
+	const cards = document.querySelectorAll('.bento-card');
 	
-	.q-number {
-		font-weight: 600;
-		color: var(--accent);
-		font-family: var(--font-serif);
-		font-size: 1.2rem;
-	}
-	
-	.q-source {
-		font-size: 0.75rem;
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		background: rgba(255,255,255,0.1);
-		padding: 0.2rem 0.6rem;
-		border-radius: 4px;
-	}
-	
-	.q-text {
-		font-size: 1.05rem;
-		margin-bottom: 1.5rem;
-		line-height: 1.6;
-	}
-	
-	.options-list {
-		list-style: none;
-		padding: 0;
-		margin-bottom: 2rem;
-		display: grid;
-		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-		gap: 1rem;
-	}
-	
-	.options-list li {
-		background: rgba(0,0,0,0.3);
-		padding: 1rem;
-		border-radius: 8px;
-		border: 1px solid rgba(255,255,255,0.05);
-		display: flex;
-		align-items: flex-start;
-		gap: 1rem;
-	}
-	
-	.opt-label {
-		color: var(--accent);
-		font-weight: 600;
-	}
-	
-	.ans-label {
-		margin-bottom: 1rem;
-		font-size: 1.1rem;
-	}
-	
-	.sol-text {
-		color: #bbb;
-		line-height: 1.6;
-	}
-</style>
+	cards.forEach((card, i) => {
+		// Reveal
+		gsap.fromTo(card, 
+			{ y: 60, opacity: 0 },
+			{
+				y: 0,
+				opacity: 1,
+				duration: 1.2,
+				ease: 'power3.out',
+				scrollTrigger: {
+					trigger: card,
+					start: 'top 85%',
+				}
+			}
+		);
+		
+		// Parallax BG
+		const bg = card.querySelector('.parallax-bg');
+		if(bg) {
+			gsap.to(bg, {
+				y: '15%',
+				ease: 'none',
+				scrollTrigger: {
+					trigger: card,
+					start: 'top bottom',
+					end: 'bottom top',
+					scrub: true
+				}
+			});
+		}
+	});
+</script>

@@ -1,4 +1,6 @@
 ---
+import LenisSetup from '../components/LenisSetup.astro';
+
 interface Props {
 	title: string;
 }
@@ -19,7 +21,7 @@ const { title } = Astro.props;
 		<!-- Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
 		
 		<!-- KaTeX -->
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsEw426118w3O5kxs8E0kH/Z+zD20i/MhV9/T1F4bHw+g048P8A4y/e8w=" crossorigin="anonymous">
@@ -30,295 +32,91 @@ const { title } = Astro.props;
 			// Render KaTeX
 			document.addEventListener("DOMContentLoaded", function() {
 				// @ts-ignore
-				renderMathInElement(document.body, {
-					delimiters: [
-						{left: '$$', right: '$$', display: true},
-						{left: '$', right: '$', display: false},
-						{left: '\\(', right: '\\)', display: false},
-						{left: '\\[', right: '\\]', display: true}
-					],
-					throwOnError: false
-				});
-			});
-
-			// Scroll Reveal Animation
-			document.addEventListener("DOMContentLoaded", function() {
-				const observer = new IntersectionObserver((entries) => {
-					entries.forEach((entry) => {
-						if (entry.isIntersecting) {
-							entry.target.classList.add('is-revealed');
-						}
+				if (typeof renderMathInElement !== 'undefined') {
+					// @ts-ignore
+					renderMathInElement(document.body, {
+						delimiters: [
+							{left: '$$', right: '$$', display: true},
+							{left: '$', right: '$', display: false},
+							{left: '\\(', right: '\\)', display: false},
+							{left: '\\[', right: '\\]', display: true}
+						],
+						throwOnError: false
 					});
-				}, { threshold: 0.1, rootMargin: "0px 0px -50px 0px" });
-
-				document.querySelectorAll('.reveal').forEach((el) => {
-					observer.observe(el);
-				});
+				}
 			});
 		</script>
 	</head>
-	<body>
-		<div class="glow-bg"></div>
-		<header>
-			<h1><a href="/coordination-compounds/">coordination<br/>compounds.</a></h1>
-			<nav>
-				<a href="/coordination-compounds/">Concepts</a>
-				<a href="/coordination-compounds/cheatsheet">Cheat Sheet</a>
+	<body class="bg-black text-white overflow-x-hidden selection:bg-white selection:text-black">
+		<LenisSetup />
+		<div class="custom-cursor hidden md:block fixed top-0 left-0 w-4 h-4 bg-white rounded-full mix-blend-difference pointer-events-none z-[100] transition-transform duration-100 ease-out"></div>
+		
+		<div class="fixed inset-0 pointer-events-none z-[-1] opacity-40 mix-blend-screen bg-[radial-gradient(circle_at_50%_50%,_rgba(94,106,210,0.15),_transparent_60%)]"></div>
+		
+		<header class="fixed top-0 w-full z-40 px-6 md:px-12 py-8 flex justify-between items-center mix-blend-difference">
+			<h1 class="text-xl md:text-2xl font-bold tracking-tighter leading-none font-sans"><a href="/coordination-compounds/" class="hover:opacity-70 transition-opacity">coordination<br/>compounds.</a></h1>
+			<nav class="flex gap-6 md:gap-12 text-xs md:text-sm uppercase tracking-widest font-medium font-sans">
+				<a href="/coordination-compounds/" class="hover:text-gray-300 transition-colors">Concepts</a>
+				<a href="/coordination-compounds/cheatsheet" class="hover:text-gray-300 transition-colors">Cheat Sheet</a>
 			</nav>
 		</header>
-		<main>
+
+		<main class="relative z-10 w-full min-h-screen pt-32">
 			<slot />
 		</main>
-		<footer>
+
+		<footer class="text-center py-16 border-t border-white/10 text-white/40 text-sm mt-32 font-sans">
 			<p>Visual learning experience.</p>
 		</footer>
+
+		<script>
+			// Custom Cursor Logic
+			document.addEventListener('DOMContentLoaded', () => {
+				const cursor = document.querySelector('.custom-cursor') as HTMLElement;
+				if (cursor) {
+					let mouseX = 0;
+					let mouseY = 0;
+					let cursorX = 0;
+					let cursorY = 0;
+					
+					document.addEventListener('mousemove', (e) => {
+						mouseX = e.clientX;
+						mouseY = e.clientY;
+					});
+					
+					const render = () => {
+						cursorX += (mouseX - cursorX) * 0.2;
+						cursorY += (mouseY - cursorY) * 0.2;
+						cursor.style.transform = `translate3d(${cursorX - 8}px, ${cursorY - 8}px, 0)`;
+						requestAnimationFrame(render);
+					};
+					requestAnimationFrame(render);
+					
+					// Add hover effect for links and buttons
+					document.querySelectorAll('a, button').forEach(el => {
+						el.addEventListener('mouseenter', () => cursor.classList.add('scale-[2.5]'));
+						el.addEventListener('mouseleave', () => cursor.classList.remove('scale-[2.5]'));
+					});
+				}
+			});
+		</script>
 	</body>
 </html>
+
 <style is:global>
+	@import "tailwindcss";
+
 	:root {
-		--bg: #050505;
-		--bg-card: rgba(20, 20, 20, 0.6);
-		--text: #ededed;
-		--text-muted: #888;
-		--border: rgba(255, 255, 255, 0.08);
-		--accent: #5e6ad2;
-		--accent-glow: rgba(94, 106, 210, 0.15);
 		--font-sans: 'Outfit', system-ui, sans-serif;
 		--font-serif: 'Playfair Display', serif;
 	}
 	
 	html {
 		font-family: var(--font-sans);
-		background: var(--bg);
-		color: var(--text);
-		scroll-behavior: smooth;
-	}
-	
-	body {
-		margin: 0;
-		padding: 0;
-		display: flex;
-		flex-direction: column;
-		min-height: 100vh;
-		overflow-x: hidden;
-		position: relative;
-	}
-	
-	.glow-bg {
-		position: fixed;
-		top: -50%;
-		left: -50%;
-		width: 200%;
-		height: 200%;
-		background: radial-gradient(circle at 50% 50%, var(--accent-glow) 0%, transparent 40%);
-		z-index: -1;
-		pointer-events: none;
-		opacity: 0.6;
 	}
 
-	header {
-		padding: 2rem 4rem;
-		display: flex;
-		justify-content: space-between;
-		align-items: flex-start;
-		border-bottom: 1px solid var(--border);
-		backdrop-filter: blur(10px);
-		-webkit-backdrop-filter: blur(10px);
-		position: sticky;
-		top: 0;
-		z-index: 100;
-	}
-	
-	@media (max-width: 768px) {
-		header {
-			flex-direction: column;
-			gap: 1.5rem;
-			padding: 1.5rem 2rem;
-		}
-	}
-
-	header h1 {
-		margin: 0;
-		font-size: 1.2rem;
-		font-weight: 600;
-		letter-spacing: -0.02em;
-		line-height: 1.1;
-	}
-	
-	header h1 a {
-		color: var(--text);
-		text-decoration: none;
-		transition: opacity 0.3s ease;
-	}
-	
-	header h1 a:hover {
-		opacity: 0.8;
-	}
-	
-	nav {
-		display: flex;
-		gap: 2rem;
-	}
-	
-	nav a {
-		color: var(--text-muted);
-		text-decoration: none;
-		font-size: 0.9rem;
-		font-weight: 400;
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		transition: color 0.3s ease;
-		position: relative;
-	}
-	
-	nav a::after {
-		content: '';
-		position: absolute;
-		width: 100%;
-		transform: scaleX(0);
-		height: 1px;
-		bottom: -4px;
-		left: 0;
-		background-color: var(--accent);
-		transform-origin: bottom right;
-		transition: transform 0.4s cubic-bezier(0.86, 0, 0.07, 1);
-	}
-	
-	nav a:hover {
-		color: var(--text);
-	}
-	
-	nav a:hover::after {
-		transform: scaleX(1);
-		transform-origin: bottom left;
-	}
-	
-	main {
-		flex: 1;
-		padding: 4rem 2rem;
-		max-width: 1200px;
-		margin: 0 auto;
-		width: 100%;
-		box-sizing: border-box;
-	}
-	
-	footer {
-		text-align: center;
-		padding: 3rem;
-		border-top: 1px solid var(--border);
-		color: var(--text-muted);
-		font-size: 0.85rem;
-	}
-	
-	/* Typography Enhancements */
-	h2 {
+	h1, h2, h3, h4, h5, h6 {
 		font-family: var(--font-serif);
-		font-size: clamp(3rem, 6vw, 5rem);
-		font-weight: 400;
-		font-style: italic;
-		margin-bottom: 4rem;
-		line-height: 1.1;
-		letter-spacing: -0.02em;
-	}
-	
-	h3 {
-		font-size: 1.8rem;
-		font-weight: 400;
-		margin-bottom: 1rem;
-		letter-spacing: -0.01em;
-	}
-	
-	h4 {
-		font-size: 1.1rem;
-		text-transform: uppercase;
-		letter-spacing: 0.1em;
-		color: var(--text-muted);
-		margin-bottom: 1.5rem;
-	}
-	
-	p {
-		line-height: 1.7;
-		color: #ccc;
-	}
-
-	/* Scroll Reveal Classes */
-	.reveal {
-		opacity: 0;
-		transform: translateY(30px);
-		transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-	}
-	
-	.reveal.is-revealed {
-		opacity: 1;
-		transform: translateY(0);
-	}
-	
-	/* Components */
-	.concept-card {
-		background: var(--bg-card);
-		border: 1px solid var(--border);
-		padding: clamp(2rem, 5vw, 4rem);
-		margin-bottom: 4rem;
-		border-radius: 24px;
-		backdrop-filter: blur(20px);
-		-webkit-backdrop-filter: blur(20px);
-		transition: border-color 0.4s ease, transform 0.4s ease;
-	}
-	
-	.concept-card:hover {
-		border-color: rgba(255,255,255,0.15);
-	}
-	
-	.visual-container {
-		margin: 3rem 0;
-		border: 1px solid var(--border);
-		border-radius: 16px;
-		overflow: hidden;
-		min-height: 400px;
-		position: relative;
-		background: #0a0a0a;
-	}
-	
-	button {
-		background: rgba(255, 255, 255, 0.05);
-		color: var(--text);
-		border: 1px solid var(--border);
-		padding: 0.75rem 1.5rem;
-		border-radius: 8px;
-		font-family: var(--font-sans);
-		font-weight: 400;
-		letter-spacing: 0.02em;
-		cursor: pointer;
-		transition: all 0.3s ease;
-	}
-	
-	button:hover {
-		background: var(--text);
-		color: var(--bg);
-	}
-	
-	/* Questions Styling */
-	.questions-section {
-		margin-top: 4rem;
-		padding-top: 3rem;
-		border-top: 1px solid var(--border);
-	}
-	
-	.question-block {
-		margin-top: 2rem;
-		padding: 2rem;
-		background: rgba(255, 255, 255, 0.02);
-		border-radius: 12px;
-		border: 1px solid rgba(255, 255, 255, 0.04);
-	}
-	
-	.solution {
-		display: none;
-		margin-top: 1.5rem;
-		padding: 1.5rem;
-		background: rgba(94, 106, 210, 0.08);
-		border-left: 3px solid var(--accent);
-		border-radius: 0 8px 8px 0;
 	}
 	
 	/* KaTeX Tweaks for Dark Mode */
@@ -330,4 +128,16 @@ const { title } = Astro.props;
 		overflow-y: hidden;
 		padding: 1rem 0;
 	}
+
+    /* Content styling from original but tailored */
+    .concept-body p {
+        margin-bottom: 1.5rem;
+        color: rgba(255, 255, 255, 0.7);
+        line-height: 1.8;
+    }
+    .concept-body ul {
+        margin-bottom: 1.5rem;
+        list-style: disc inside;
+        color: rgba(255, 255, 255, 0.7);
+    }
 </style>
