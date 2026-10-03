@@ -4,81 +4,211 @@ import cheatsheet from '../data/cheatsheet.json';
 ---
 
 <Layout title="Cheat Sheet | Coordination Compounds">
-	<h2>cheat sheet</h2>
+	<div class="hero reveal">
+		<h2>cheat sheet.</h2>
+		<p class="subtitle">Quick reference for nomenclature, isomerism, and field theory.</p>
+	</div>
 	
-	<section class="concept-card">
+	<section class="concept-card reveal">
 		<h3>Nomenclature Rules</h3>
-		<ol>
+		<ol class="rules-list">
 			{cheatsheet.nomenclature_rules.map((rule: string) => (
 				<li>{rule}</li>
 			))}
 		</ol>
 	</section>
 
-	<section class="concept-card">
+	<section class="concept-card reveal">
 		<h3>Spectrochemical Series</h3>
-		<p>Increasing field strength ($ \Delta_o $):</p>
-		<p class="series">{cheatsheet.spectrochemical_series.join(' < ')}</p>
+		<p class="muted">Increasing field strength ($ \Delta_o $):</p>
+		<div class="series-box">
+			{cheatsheet.spectrochemical_series.join(' < ')}
+		</div>
 	</section>
 
-	<section class="concept-card">
+	<section class="concept-card reveal">
 		<h3>Hybridisation & Geometry</h3>
-		<table>
-			<thead>
-				<tr>
-					<th>CN</th>
-					<th>Geometry</th>
-					<th>Hybridisation</th>
-					<th>Example</th>
-				</tr>
-			</thead>
-			<tbody>
-				{cheatsheet.hybridisation_table.map((row: any) => (
+		<div class="table-wrapper">
+			<table>
+				<thead>
 					<tr>
-						<td>{row.cn}</td>
-						<td>{row.geometry}</td>
-						<td>{row.hybridisation}</td>
-						<td><span set:html={row.example} /></td>
+						<th>Coordination Number</th>
+						<th>Geometry</th>
+						<th>Hybridisation</th>
+						<th>Example</th>
 					</tr>
-				))}
-			</tbody>
-		</table>
+				</thead>
+				<tbody>
+					{cheatsheet.hybridisation_table.map((row: any) => (
+						<tr>
+							<td><span class="cn-badge">{row.cn}</span></td>
+							<td>{row.geometry}</td>
+							<td><span class="hyb-badge">{row.hybridisation}</span></td>
+							<td><span set:html={row.example} /></td>
+						</tr>
+					))}
+				</tbody>
+			</table>
+		</div>
 	</section>
 
-	<section class="concept-card">
+	<section class="concept-card reveal">
 		<h3>Isomer Types</h3>
-		<ul>
+		<div class="isomer-grid">
 			{cheatsheet.isomer_types.map((isomer: any) => (
-				<li>
-					<strong>{isomer.type} - {isomer.subtype}:</strong> {isomer.description}
-					<br/><em>Example:</em> <span set:html={isomer.example} />
-				</li>
+				<div class="isomer-card">
+					<div class="iso-header">
+						<span class="iso-type">{isomer.type}</span>
+						<span class="iso-sub">{isomer.subtype}</span>
+					</div>
+					<p class="iso-desc">{isomer.description}</p>
+					<div class="iso-ex">
+						<strong>Example:</strong> <span set:html={isomer.example} />
+					</div>
+				</div>
 			))}
-		</ul>
+		</div>
 	</section>
 </Layout>
 
 <style>
+	.hero {
+		padding: 4rem 0 4rem 0;
+	}
+	.subtitle {
+		font-size: 1.2rem;
+		color: var(--text-muted);
+	}
+	.muted {
+		color: var(--text-muted);
+		margin-bottom: 1rem;
+	}
+	
+	.rules-list {
+		padding-left: 1.5rem;
+		line-height: 1.8;
+		color: #ddd;
+	}
+	
+	.rules-list li {
+		margin-bottom: 1rem;
+		padding-left: 0.5rem;
+	}
+	.rules-list li::marker {
+		color: var(--accent);
+		font-weight: bold;
+	}
+	
+	.series-box {
+		font-family: monospace;
+		background: rgba(0,0,0,0.4);
+		border: 1px solid rgba(255,255,255,0.05);
+		padding: 2rem;
+		border-radius: 12px;
+		color: var(--accent);
+		font-size: 1.1rem;
+		line-height: 1.8;
+		text-align: center;
+		overflow-x: auto;
+		white-space: nowrap;
+	}
+	
+	.table-wrapper {
+		overflow-x: auto;
+	}
+	
 	table {
 		width: 100%;
 		border-collapse: collapse;
 		margin-top: 1rem;
+		min-width: 600px;
 	}
-	th, td {
-		border: 1px solid #333;
-		padding: 0.5rem;
+	
+	th {
 		text-align: left;
-	}
-	.series {
-		font-family: monospace;
-		background: #111;
 		padding: 1rem;
-		border-radius: 4px;
+		color: var(--text-muted);
+		font-weight: 400;
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+		font-size: 0.85rem;
+		border-bottom: 1px solid rgba(255,255,255,0.1);
 	}
-	ol, ul {
-		padding-left: 1.5rem;
+	
+	td {
+		padding: 1.5rem 1rem;
+		border-bottom: 1px solid rgba(255,255,255,0.05);
 	}
-	li {
+	
+	.cn-badge {
+		background: rgba(255,255,255,0.1);
+		padding: 0.3rem 0.8rem;
+		border-radius: 20px;
+		font-weight: 600;
+	}
+	
+	.hyb-badge {
+		color: var(--accent);
+		font-family: monospace;
+		font-size: 1.1rem;
+	}
+	
+	.isomer-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: 1.5rem;
+		margin-top: 2rem;
+	}
+	
+	.isomer-card {
+		background: rgba(0,0,0,0.3);
+		border: 1px solid rgba(255,255,255,0.05);
+		border-radius: 12px;
+		padding: 1.5rem;
+		display: flex;
+		flex-direction: column;
+	}
+	
+	.iso-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1rem;
+		padding-bottom: 1rem;
+		border-bottom: 1px solid rgba(255,255,255,0.05);
+	}
+	
+	.iso-type {
+		text-transform: uppercase;
+		font-size: 0.75rem;
+		letter-spacing: 0.1em;
+		color: var(--text-muted);
+	}
+	
+	.iso-sub {
+		color: var(--text);
+		font-weight: 600;
+		font-size: 1.1rem;
+	}
+	
+	.iso-desc {
+		font-size: 0.95rem;
+		color: #bbb;
+		margin-bottom: 1.5rem;
+		flex-grow: 1;
+	}
+	
+	.iso-ex {
+		background: rgba(255,255,255,0.03);
+		padding: 1rem;
+		border-radius: 8px;
+		font-size: 0.95rem;
+	}
+	.iso-ex strong {
+		color: var(--accent);
+		display: block;
 		margin-bottom: 0.5rem;
+		font-size: 0.8rem;
+		text-transform: uppercase;
 	}
 </style>

@@ -24,8 +24,10 @@ const getVisualComponent = (visualName: string) => {
 ---
 
 <Layout title="Coordination Compounds">
-	<h2>concepts</h2>
-	<p>A visual guide to coordination chemistry.</p>
+	<div class="hero reveal">
+		<h2>coordination<br/>chemistry.</h2>
+		<p class="subtitle">A visual, intuitive approach to mastering complexes for JEE Advanced.</p>
+	</div>
 	
 	<div class="concept-list">
 		{conceptsData.sort((a, b) => a.order - b.order).map(concept => {
@@ -33,9 +35,9 @@ const getVisualComponent = (visualName: string) => {
 			const conceptQuestions = questionsData.filter((q: any) => q.concept === concept.id);
 			
 			return (
-				<section class="concept-card" id={concept.id}>
+				<section class="concept-card reveal" id={concept.id}>
 					<h3>{concept.title}</h3>
-					<p><em>{concept.summary}</em></p>
+					<p class="concept-summary">{concept.summary}</p>
 					
 					{Visual && (
 						<div class="visual-container">
@@ -47,23 +49,28 @@ const getVisualComponent = (visualName: string) => {
 					
 					{conceptQuestions.length > 0 && (
 						<div class="questions-section">
-							<h4>practice questions</h4>
+							<h4>JEE Mains Pattern Questions</h4>
+							<p class="muted">Test your understanding of {concept.title.toLowerCase()}.</p>
 							{conceptQuestions.map((q: any, i: number) => (
 								<div class="question-block">
-									<p><strong>Q{i+1}.</strong> <span set:html={q.question.replace(/\n/g, '<br/>')} /></p>
+									<div class="q-header">
+										<span class="q-number">Q{i+1}</span>
+										{q.source && <span class="q-source">{q.source}</span>}
+									</div>
+									<div class="q-text" set:html={q.question.replace(/\n/g, '<br/>')} />
 									{q.options && q.options.length > 0 && (
-										<ul>
+										<ul class="options-list">
 											{q.options.map((opt: string, j: number) => (
-												<li>{String.fromCharCode(65+j)}. {opt}</li>
+												<li><span class="opt-label">{String.fromCharCode(65+j)}</span> <span set:html={opt} /></li>
 											))}
 										</ul>
 									)}
-									<button onclick={`document.getElementById('sol-${q.id}').style.display = document.getElementById('sol-${q.id}').style.display === 'block' ? 'none' : 'block'`}>
-										Show Solution
+									<button onclick={`const el = document.getElementById('sol-${q.id}'); if(el.style.display === 'block'){ el.style.display = 'none'; this.innerText='View Solution'; } else { el.style.display = 'block'; this.innerText='Hide Solution'; }`}>
+										View Solution
 									</button>
 									<div id={`sol-${q.id}`} class="solution">
-										<p><strong>Answer:</strong> {q.answer}</p>
-										<div set:html={q.solution.replace(/\n/g, '<br/>')} />
+										<div class="ans-label">Correct Answer: <strong>{q.answer}</strong></div>
+										<div class="sol-text" set:html={q.solution.replace(/\n/g, '<br/>')} />
 									</div>
 								</div>
 							))}
@@ -76,16 +83,86 @@ const getVisualComponent = (visualName: string) => {
 </Layout>
 
 <style>
-	.questions-section {
-		margin-top: 3rem;
-		border-top: 1px solid #333;
-		padding-top: 1rem;
+	.hero {
+		padding: 4rem 0 8rem 0;
 	}
-	ul {
+	.subtitle {
+		font-size: 1.2rem;
+		color: var(--text-muted);
+		max-width: 600px;
+	}
+	.concept-summary {
+		font-size: 1.1rem;
+		color: var(--accent);
+		margin-bottom: 2rem;
+		font-style: italic;
+	}
+	.muted {
+		color: var(--text-muted);
+		font-size: 0.9rem;
+		margin-bottom: 2rem;
+	}
+	
+	.q-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: 1rem;
+	}
+	
+	.q-number {
+		font-weight: 600;
+		color: var(--accent);
+		font-family: var(--font-serif);
+		font-size: 1.2rem;
+	}
+	
+	.q-source {
+		font-size: 0.75rem;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		background: rgba(255,255,255,0.1);
+		padding: 0.2rem 0.6rem;
+		border-radius: 4px;
+	}
+	
+	.q-text {
+		font-size: 1.05rem;
+		margin-bottom: 1.5rem;
+		line-height: 1.6;
+	}
+	
+	.options-list {
 		list-style: none;
 		padding: 0;
+		margin-bottom: 2rem;
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+		gap: 1rem;
 	}
-	li {
-		margin-bottom: 0.5rem;
+	
+	.options-list li {
+		background: rgba(0,0,0,0.3);
+		padding: 1rem;
+		border-radius: 8px;
+		border: 1px solid rgba(255,255,255,0.05);
+		display: flex;
+		align-items: flex-start;
+		gap: 1rem;
+	}
+	
+	.opt-label {
+		color: var(--accent);
+		font-weight: 600;
+	}
+	
+	.ans-label {
+		margin-bottom: 1rem;
+		font-size: 1.1rem;
+	}
+	
+	.sol-text {
+		color: #bbb;
+		line-height: 1.6;
 	}
 </style>
