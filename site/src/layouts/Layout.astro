@@ -1,6 +1,4 @@
 ---
-import LenisSetup from '../components/LenisSetup.astro';
-
 interface Props {
 	title: string;
 }
@@ -13,131 +11,170 @@ const { title } = Astro.props;
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="description" content="Coordination Compounds - Visual Learning" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
 		<title>{title}</title>
 		
-		<!-- Fonts -->
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@200;300;400;500;600&display=swap" rel="stylesheet">
 		
 		<!-- KaTeX -->
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsEw426118w3O5kxs8E0kH/Z+zD20i/MhV9/T1F4bHw+g048P8A4y/e8w=" crossorigin="anonymous">
-		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-1PKO/eW0r/L2PZ/p33bB23Z/s2pZ/tK1jM6TqGqA4T6npxs6B4yA4mZgP+F6sWc" crossorigin="anonymous"></script>
-		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"></script>
-
-		<script>
-			// Render KaTeX
-			document.addEventListener("DOMContentLoaded", function() {
-				// @ts-ignore
-				if (typeof renderMathInElement !== 'undefined') {
-					// @ts-ignore
-					renderMathInElement(document.body, {
-						delimiters: [
-							{left: '$$', right: '$$', display: true},
-							{left: '$', right: '$', display: false},
-							{left: '\\(', right: '\\)', display: false},
-							{left: '\\[', right: '\\]', display: true}
-						],
-						throwOnError: false
-					});
-				}
-			});
-		</script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" />
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+			onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true}], throwOnError: false});"></script>
 	</head>
-	<body class="bg-black text-white overflow-x-hidden selection:bg-white selection:text-black">
-		<LenisSetup />
-		<div class="custom-cursor hidden md:block fixed top-0 left-0 w-4 h-4 bg-white rounded-full mix-blend-difference pointer-events-none z-[100] transition-transform duration-100 ease-out"></div>
-		
-		<div class="fixed inset-0 pointer-events-none z-[-1] opacity-40 mix-blend-screen bg-[radial-gradient(circle_at_50%_50%,_rgba(94,106,210,0.15),_transparent_60%)]"></div>
-		
-		<header class="fixed top-0 w-full z-40 px-6 md:px-12 py-8 flex justify-between items-center mix-blend-difference">
-			<h1 class="text-xl md:text-2xl font-bold tracking-tighter leading-none font-sans"><a href="/coordination-compounds/" class="hover:opacity-70 transition-opacity">coordination<br/>compounds.</a></h1>
-			<nav class="flex gap-6 md:gap-12 text-xs md:text-sm uppercase tracking-widest font-medium font-sans">
-				<a href="/coordination-compounds/" class="hover:text-gray-300 transition-colors">Concepts</a>
-				<a href="/coordination-compounds/cheatsheet" class="hover:text-gray-300 transition-colors">Cheat Sheet</a>
+	<body>
+		<header>
+			<h1><a href="/coordination-compounds/">coordination compounds</a></h1>
+			<nav>
+				<a href="/coordination-compounds/">concepts</a>
+				<a href="/coordination-compounds/cheatsheet">cheat sheet</a>
 			</nav>
 		</header>
-
-		<main class="relative z-10 w-full min-h-screen pt-32">
+		<main>
 			<slot />
 		</main>
-
-		<footer class="text-center py-16 border-t border-white/10 text-white/40 text-sm mt-32 font-sans">
-			<p>Visual learning experience.</p>
-		</footer>
-
-		<script>
-			// Custom Cursor Logic
-			document.addEventListener('DOMContentLoaded', () => {
-				const cursor = document.querySelector('.custom-cursor') as HTMLElement;
-				if (cursor) {
-					let mouseX = 0;
-					let mouseY = 0;
-					let cursorX = 0;
-					let cursorY = 0;
-					
-					document.addEventListener('mousemove', (e) => {
-						mouseX = e.clientX;
-						mouseY = e.clientY;
-					});
-					
-					const render = () => {
-						cursorX += (mouseX - cursorX) * 0.2;
-						cursorY += (mouseY - cursorY) * 0.2;
-						cursor.style.transform = `translate3d(${cursorX - 8}px, ${cursorY - 8}px, 0)`;
-						requestAnimationFrame(render);
-					};
-					requestAnimationFrame(render);
-					
-					// Add hover effect for links and buttons
-					document.querySelectorAll('a, button').forEach(el => {
-						el.addEventListener('mouseenter', () => cursor.classList.add('scale-[2.5]'));
-						el.addEventListener('mouseleave', () => cursor.classList.remove('scale-[2.5]'));
-					});
-				}
-			});
-		</script>
 	</body>
 </html>
-
 <style is:global>
-	@import "tailwindcss";
-
+	*, *::before, *::after {
+		margin: 0;
+		padding: 0;
+		box-sizing: border-box;
+	}
 	:root {
-		--font-sans: 'Outfit', system-ui, sans-serif;
-		--font-serif: 'Playfair Display', serif;
+		--bg: #000;
+		--text: #e0e0e0;
+		--border: #222;
+		--accent: #888;
+	}
+	html, body {
+		width: 100%;
+		height: 100%;
+		font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+		background: var(--bg);
+		color: var(--text);
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+	body {
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	}
+	header {
+		padding: 1.5rem 2rem;
+		border-bottom: 1px solid var(--border);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		flex-wrap: wrap;
+		gap: 1rem;
+	}
+	header h1 {
+		font-size: 1.1rem;
+		font-weight: 500;
+		letter-spacing: -0.01em;
+	}
+	header a {
+		color: var(--text);
+		text-decoration: none;
+	}
+	nav {
+		display: flex;
+		gap: 1.5rem;
+	}
+	nav a {
+		color: var(--accent);
+		text-transform: lowercase;
+		font-size: 0.95rem;
+		text-decoration: none;
+		transition: color 0.2s;
+	}
+	nav a:hover {
+		color: var(--text);
+	}
+	main {
+		flex: 1;
+		padding: 3rem 2rem;
+		max-width: 900px;
+		margin: 0 auto;
+		width: 100%;
+	}
+	h1, h2, h3, h4 {
+		font-weight: 500;
+		text-transform: lowercase;
+		letter-spacing: -0.02em;
+	}
+	h2 {
+		font-size: 2rem;
+		margin-bottom: 0.5rem;
+	}
+	h3 {
+		font-size: 1.4rem;
+		margin-bottom: 0.5rem;
+		color: #fff;
+	}
+	p {
+		line-height: 1.6;
+		color: #bbb;
+		margin-bottom: 1rem;
+	}
+	.concept-card {
+		border: 1px solid var(--border);
+		padding: 2rem;
+		margin-bottom: 3rem;
+		border-radius: 8px;
+		background: #050505;
+	}
+	.visual-container {
+		margin: 2rem 0;
+		border: 1px solid var(--border);
+		border-radius: 6px;
+		background: #0a0a0a;
+		min-height: 300px;
+		position: relative;
+		overflow: hidden;
+	}
+	button {
+		background: transparent;
+		color: var(--text);
+		border: 1px solid var(--border);
+		padding: 0.5rem 1rem;
+		border-radius: 4px;
+		cursor: pointer;
+		font-family: inherit;
+		font-size: 0.9rem;
+		transition: all 0.2s;
+	}
+	button:hover {
+		border-color: var(--accent);
+		color: #fff;
+	}
+	.question-block {
+		margin-top: 2rem;
+		padding-top: 1.5rem;
+		border-top: 1px dashed var(--border);
+	}
+	.solution {
+		display: none;
+		margin-top: 1rem;
+		padding: 1rem;
+		background: #0a0a0a;
+		border-left: 2px solid var(--border);
+		font-size: 0.95rem;
 	}
 	
-	html {
-		font-family: var(--font-sans);
-	}
-
-	h1, h2, h3, h4, h5, h6 {
-		font-family: var(--font-serif);
-	}
+	/* KaTeX overrides */
+	.katex { color: #e0e0e0 !important; font-size: 1.05em; }
+	.katex-display { overflow-x: auto; overflow-y: hidden; padding: 0.5rem 0; }
 	
-	/* KaTeX Tweaks for Dark Mode */
-	.katex {
-		color: #e2e8f0;
+	@media (max-width: 600px) {
+		header { flex-direction: column; align-items: flex-start; padding: 1.5rem; }
+		main { padding: 2rem 1.5rem; }
+		.concept-card { padding: 1.5rem; }
 	}
-	.katex-display {
-		overflow-x: auto;
-		overflow-y: hidden;
-		padding: 1rem 0;
-	}
-
-    /* Content styling from original but tailored */
-    .concept-body p {
-        margin-bottom: 1.5rem;
-        color: rgba(255, 255, 255, 0.7);
-        line-height: 1.8;
-    }
-    .concept-body ul {
-        margin-bottom: 1.5rem;
-        list-style: disc inside;
-        color: rgba(255, 255, 255, 0.7);
-    }
 </style>
