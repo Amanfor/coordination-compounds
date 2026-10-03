@@ -1,0 +1,74 @@
+---
+---
+<div class="naming-builder">
+  <h2>IUPAC Name Builder</h2>
+  <div class="builder-form">
+    <select id="name-metal">
+      <option value="Cobalt">Cobalt (Co)</option>
+      <option value="Iron">Iron (Fe)</option>
+      <option value="Copper">Copper (Cu)</option>
+    </select>
+    
+    <select id="name-ox">
+      <option value="II">(II)</option>
+      <option value="III">(III)</option>
+    </select>
+    
+    <select id="name-ligand" multiple size="3">
+      <option value="aqua">H₂O (aqua)</option>
+      <option value="ammine">NH₃ (ammine)</option>
+      <option value="chlorido">Cl⁻ (chlorido)</option>
+    </select>
+    
+    <label><input type="checkbox" id="name-anionic"> Is Anionic Complex?</label>
+  </div>
+  
+  <div class="live-name">
+    <h3>Generated Name:</h3>
+    <div id="iupac-result" class="result-box">Select ligands to build name...</div>
+  </div>
+  
+  <div class="worked-examples">
+    <h4>Examples:</h4>
+    <ul>
+      <li>[Co(NH₃)₆]Cl₃ → hexaamminecobalt(III) chloride</li>
+      <li>K₃[Fe(CN)₆] → potassium hexacyanidoferrate(III)</li>
+      <li>[Ni(CO)₄] → tetracarbonylnickel(0)</li>
+      <li>[Pt(NH₃)₂Cl₂] → diamminedichloridoplatinum(II)</li>
+      <li>[Cu(en)₂]SO₄ → bis(ethane-1,2-diamine)copper(II) sulphate</li>
+    </ul>
+  </div>
+</div>
+
+<script>
+  function buildName() {
+    const metal = document.getElementById('name-metal').value;
+    const ox = document.getElementById('name-ox').value;
+    const isAnionic = document.getElementById('name-anionic').checked;
+    
+    const ligandOpts = Array.from(document.getElementById('name-ligand').selectedOptions);
+    const ligands = ligandOpts.map(opt => opt.value).sort();
+    
+    let metalName = metal.toLowerCase();
+    if (isAnionic) {
+      if (metal === 'Iron') metalName = 'ferrate';
+      else if (metal === 'Copper') metalName = 'cuprate';
+      else metalName += 'ate';
+    }
+    
+    const ligandPart = ligands.length > 0 ? `poly${ligands.join('')}` : ''; // Simplified prefixing
+    
+    document.getElementById('iupac-result').innerText = `${ligandPart}${metalName}${ox}`;
+  }
+
+  document.querySelectorAll('.builder-form select, .builder-form input').forEach(el => el.addEventListener('change', buildName));
+  buildName();
+</script>
+
+<style>
+  .naming-builder { background: #000; color: #fff; padding: 20px; border: 1px solid #333; }
+  .builder-form select { background: #111; color: #fff; border: 1px solid #333; margin: 5px; padding: 5px; }
+  .result-box { padding: 10px; background: #111; border: 1px dashed #666; color: #0f0; font-family: monospace; font-size: 1.2em; }
+  .worked-examples ul { list-style: none; padding: 0; font-size: 0.9em; color: #ccc; }
+  .worked-examples li { margin-bottom: 5px; }
+</style>

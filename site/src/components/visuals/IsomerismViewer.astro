@@ -1,0 +1,92 @@
+---
+---
+<div class="isomerism-viewer">
+  <h2>Isomerism Explorer</h2>
+  
+  <div class="tabs">
+    <button class="tab-btn active" onclick="showTab('structural')">Structural</button>
+    <button class="tab-btn" onclick="showTab('stereo')">Stereo</button>
+  </div>
+  
+  <div id="structural" class="tab-content active">
+    <select id="struct-type" onchange="updateStruct()">
+      <option value="ionisation">Ionisation Isomerism</option>
+      <option value="hydrate">Hydrate / Solvate Isomerism</option>
+      <option value="linkage">Linkage Isomerism</option>
+      <option value="coordination">Coordination Isomerism</option>
+    </select>
+    
+    <div class="pair-view">
+      <div class="iso-box" id="struct-iso1">[Co(NH₃)₅Br]SO₄</div>
+      <div class="iso-box" id="struct-iso2">[Co(NH₃)₅SO₄]Br</div>
+    </div>
+    <p id="struct-desc">Exchange of ions inside and outside the coordination sphere.</p>
+  </div>
+  
+  <div id="stereo" class="tab-content">
+    <select id="stereo-type" onchange="updateStereo()">
+      <option value="geometrical">Geometrical (Cis/Trans)</option>
+      <option value="optical">Optical (Enantiomers)</option>
+    </select>
+    
+    <div class="pair-view">
+      <div class="iso-box">
+        <svg width="100" height="100"><circle cx="50" cy="50" r="20" fill="#333"/><text x="50" y="55" fill="#fff" text-anchor="middle">Isomer A</text></svg>
+      </div>
+      <div class="iso-box">
+        <svg width="100" height="100"><circle cx="50" cy="50" r="20" fill="#333"/><text x="50" y="55" fill="#fff" text-anchor="middle">Isomer B</text></svg>
+      </div>
+    </div>
+    <p id="stereo-desc">Spatial arrangement differs.</p>
+  </div>
+</div>
+
+<script>
+  function showTab(tabId) {
+    document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    event.target.classList.add('active');
+  }
+  
+  function updateStruct() {
+    const val = document.getElementById('struct-type').value;
+    const iso1 = document.getElementById('struct-iso1');
+    const iso2 = document.getElementById('struct-iso2');
+    const desc = document.getElementById('struct-desc');
+    
+    if (val === 'ionisation') {
+      iso1.innerText = '[Co(NH₃)₅Br]SO₄'; iso2.innerText = '[Co(NH₃)₅SO₄]Br';
+      desc.innerText = 'Exchange of ions inside and outside the coordination sphere.';
+    } else if (val === 'hydrate') {
+      iso1.innerText = '[Cr(H₂O)₆]Cl₃'; iso2.innerText = '[Cr(H₂O)₅Cl]Cl₂·H₂O';
+      desc.innerText = 'Different number of solvent (water) molecules inside the coordination sphere.';
+    } else if (val === 'linkage') {
+      iso1.innerText = '[Co(NH₃)₅(NO₂)]²⁺'; iso2.innerText = '[Co(NH₃)₅(ONO)]²⁺';
+      desc.innerText = 'Ambidentate ligand binds through different donor atoms (N vs O).';
+    } else if (val === 'coordination') {
+      iso1.innerText = '[Co(NH₃)₆][Cr(CN)₆]'; iso2.innerText = '[Cr(NH₃)₆][Co(CN)₆]';
+      desc.innerText = 'Interchange of ligands between cationic and anionic entities.';
+    }
+  }
+  
+  function updateStereo() {
+    const val = document.getElementById('stereo-type').value;
+    const desc = document.getElementById('stereo-desc');
+    if (val === 'geometrical') desc.innerText = 'Different positions of ligands (adjacent vs opposite).';
+    else desc.innerText = 'Non-superimposable mirror images (Chiral). e.g. [Co(en)₃]³⁺';
+  }
+</script>
+
+<style>
+  .isomerism-viewer { background: #000; color: #fff; padding: 20px; border: 1px solid #333; text-align: center; }
+  .tabs { margin-bottom: 15px; border-bottom: 1px solid #333; display: flex; }
+  .tab-btn { flex: 1; background: #000; color: #aaa; border: none; padding: 10px; cursor: pointer; border-bottom: 2px solid transparent; }
+  .tab-btn.active { color: #fff; border-bottom: 2px solid #fff; }
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  select { background: #111; color: #fff; border: 1px solid #333; padding: 5px; margin-bottom: 15px; }
+  .pair-view { display: flex; justify-content: space-around; align-items: center; margin: 20px 0; }
+  .iso-box { padding: 15px; background: #111; border: 1px solid #444; border-radius: 5px; font-family: monospace; }
+  p { font-size: 0.9em; color: #ccc; }
+</style>

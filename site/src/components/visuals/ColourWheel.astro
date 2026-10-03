@@ -1,0 +1,58 @@
+---
+---
+<div class="colour-wheel-container">
+  <h2>Colour Wheel & Absorption</h2>
+  <p>Select an absorbed colour to see the observed complementary colour.</p>
+  
+  <svg id="colour-wheel" width="300" height="300" viewBox="0 0 300 300">
+    <g transform="translate(150, 150)">
+      <path d="M0,0 L0,-120 A120,120 0 0,1 103.9,-60 Z" fill="#FF0000" class="slice" data-color="Red" data-comp="Green" />
+      <path d="M0,0 L103.9,-60 A120,120 0 0,1 103.9,60 Z" fill="#FF7F00" class="slice" data-color="Orange" data-comp="Blue" />
+      <path d="M0,0 L103.9,60 A120,120 0 0,1 0,120 Z" fill="#FFFF00" class="slice" data-color="Yellow" data-comp="Violet" />
+      <path d="M0,0 L0,120 A120,120 0 0,1 -103.9,60 Z" fill="#00FF00" class="slice" data-color="Green" data-comp="Red" />
+      <path d="M0,0 L-103.9,60 A120,120 0 0,1 -103.9,-60 Z" fill="#0000FF" class="slice" data-color="Blue" data-comp="Orange" />
+      <path d="M0,0 L-103.9,-60 A120,120 0 0,1 0,-120 Z" fill="#8B00FF" class="slice" data-color="Violet" data-comp="Yellow" />
+      <circle cx="0" cy="0" r="40" fill="#000" />
+      <text x="0" y="5" fill="#fff" text-anchor="middle" font-size="12">Wheel</text>
+    </g>
+  </svg>
+  
+  <div id="colour-result">
+    <p>Absorbed: <span id="abs-col">-</span></p>
+    <p>Observed: <span id="obs-col">-</span></p>
+  </div>
+  
+  <table class="complex-table">
+    <tr><th>Complex</th><th>Absorbed</th><th>Observed</th></tr>
+    <tr><td>[Ti(H₂O)₆]³⁺</td><td>Green (~500nm)</td><td>Purple</td></tr>
+    <tr><td>[Cu(H₂O)₆]²⁺</td><td>Red (~600nm)</td><td>Blue</td></tr>
+    <tr><td>[Co(NH₃)₆]³⁺</td><td>Blue-Green</td><td>Yellow-Orange</td></tr>
+  </table>
+</div>
+
+<script>
+  document.querySelectorAll('.slice').forEach(slice => {
+    slice.addEventListener('click', function() {
+      const absorbed = this.getAttribute('data-color');
+      const observed = this.getAttribute('data-comp');
+      document.getElementById('abs-col').innerText = absorbed;
+      document.getElementById('abs-col').style.color = this.getAttribute('fill');
+      document.getElementById('obs-col').innerText = observed;
+      
+      // Reset highlights
+      document.querySelectorAll('.slice').forEach(s => s.setAttribute('stroke', 'none'));
+      this.setAttribute('stroke', '#fff');
+      this.setAttribute('stroke-width', '3');
+    });
+  });
+</script>
+
+<style>
+  .colour-wheel-container { background: #000; color: #fff; padding: 20px; border: 1px solid #333; text-align: center; }
+  .slice { cursor: pointer; transition: opacity 0.2s; }
+  .slice:hover { opacity: 0.8; }
+  #colour-result { margin: 20px 0; font-size: 1.2em; font-weight: bold; }
+  .complex-table { width: 100%; border-collapse: collapse; font-size: 0.9em; margin-top: 15px; }
+  .complex-table th, .complex-table td { border: 1px solid #333; padding: 8px; }
+  .complex-table th { background: #111; }
+</style>

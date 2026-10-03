@@ -1,0 +1,89 @@
+---
+---
+<div class="cft-diagram">
+  <h2>Crystal Field Theory Diagram</h2>
+  <div class="controls">
+    <select id="cft-metal">
+      <option value="6">Fe²⁺ (d⁶)</option>
+      <option value="5">Fe³⁺ (d⁵)</option>
+      <option value="7">Co²⁺ (d⁷)</option>
+      <option value="6">Co³⁺ (d⁶)</option>
+      <option value="8">Ni²⁺ (d⁸)</option>
+      <option value="9">Cu²⁺ (d⁹)</option>
+      <option value="3">Cr³⁺ (d³)</option>
+      <option value="5">Mn²⁺ (d⁵)</option>
+    </select>
+    <select id="cft-geometry">
+      <option value="Oh">Octahedral (Oh)</option>
+      <option value="Td">Tetrahedral (Td)</option>
+    </select>
+    <select id="cft-ligand">
+      <option value="strong">Strong Field (CN⁻, CO)</option>
+      <option value="weak">Weak Field (H₂O, Cl⁻)</option>
+    </select>
+  </div>
+  
+  <div id="cft-stats"></div>
+  
+  <svg id="cft-svg" width="400" height="300" viewBox="0 0 400 300">
+    <g id="orbital-levels"></g>
+  </svg>
+  
+  <div class="spectrochemical-series">
+    I⁻ &lt; Br⁻ &lt; S²⁻ &lt; SCN⁻ &lt; Cl⁻ &lt; N₃⁻ &lt; F⁻ &lt; OH⁻ &lt; C₂O₄²⁻ &lt; O²⁻ &lt; H₂O &lt; NCS⁻ &lt; py &lt; NH₃ &lt; en &lt; NO₂⁻ &lt; CN⁻ &lt; CO
+  </div>
+</div>
+
+<script>
+  function updateCFT() {
+    const dCount = parseInt(document.getElementById('cft-metal').value);
+    const geometry = document.getElementById('cft-geometry').value;
+    const ligand = document.getElementById('cft-ligand').value;
+    
+    // Simulate pairing logic
+    let unpaired = 0;
+    let cfse = 0;
+    let spinLabel = "High/Low Spin";
+    
+    if (geometry === 'Oh') {
+      if (ligand === 'strong' && dCount >= 4 && dCount <= 7) spinLabel = "Low Spin";
+      else spinLabel = "High Spin";
+      unpaired = dCount % 2; // placeholder mock logic
+    }
+    
+    const mu = Math.sqrt(unpaired * (unpaired + 2)).toFixed(2);
+    document.getElementById('cft-stats').innerHTML = `
+      <p>Unpaired Electrons: ${unpaired}</p>
+      <p>Spin-Only Moment (μ): ${mu} BM</p>
+      <p>State: ${spinLabel}</p>
+    `;
+    
+    const svg = document.getElementById('orbital-levels');
+    svg.innerHTML = `
+      <line x1="100" y1="150" x2="300" y2="150" stroke="#333" stroke-dasharray="4"/>
+      <text x="200" y="145" fill="#fff" text-anchor="middle" font-size="12">Barycenter</text>
+    `;
+    if (geometry === 'Oh') {
+      svg.innerHTML += `
+        <rect x="150" y="50" width="40" height="20" fill="none" stroke="#fff"/>
+        <rect x="210" y="50" width="40" height="20" fill="none" stroke="#fff"/>
+        <text x="200" y="40" fill="#fff" text-anchor="middle">eg</text>
+        
+        <rect x="120" y="220" width="40" height="20" fill="none" stroke="#fff"/>
+        <rect x="180" y="220" width="40" height="20" fill="none" stroke="#fff"/>
+        <rect x="240" y="220" width="40" height="20" fill="none" stroke="#fff"/>
+        <text x="200" y="260" fill="#fff" text-anchor="middle">t2g</text>
+      `;
+    }
+  }
+
+  document.querySelectorAll('select').forEach(s => s.addEventListener('change', updateCFT));
+  updateCFT();
+</script>
+
+<style>
+  .cft-diagram { background: #000; color: #fff; padding: 20px; border: 1px solid #333; text-align: center; }
+  .controls select { background: #111; color: #fff; border: 1px solid #333; margin: 5px; padding: 5px; }
+  .spectrochemical-series { margin-top: 15px; font-size: 12px; color: #aaa; overflow-x: auto; white-space: nowrap; border-top: 1px solid #333; padding-top: 10px; }
+  svg { background: #050505; border: 1px solid #333; margin-top: 10px; }
+</style>

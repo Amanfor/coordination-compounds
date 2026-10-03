@@ -1,0 +1,216 @@
+{
+  "cfse_table": {
+    "Oh": {
+      "d1": {
+        "hs": "-0.4",
+        "ls": "-0.4"
+      },
+      "d2": {
+        "hs": "-0.8",
+        "ls": "-0.8"
+      },
+      "d3": {
+        "hs": "-1.2",
+        "ls": "-1.2"
+      },
+      "d4": {
+        "hs": "-0.6",
+        "ls": "-1.6"
+      },
+      "d5": {
+        "hs": "0.0",
+        "ls": "-2.0"
+      },
+      "d6": {
+        "hs": "-0.4",
+        "ls": "-2.4"
+      },
+      "d7": {
+        "hs": "-0.8",
+        "ls": "-1.8"
+      },
+      "d8": {
+        "hs": "-1.2",
+        "ls": "-1.2"
+      },
+      "d9": {
+        "hs": "-0.6",
+        "ls": "-0.6"
+      }
+    },
+    "Td": {
+      "d1": "-0.6",
+      "d2": "-1.2",
+      "d3": "-0.8",
+      "d4": "-0.4",
+      "d5": "0.0",
+      "d6": "-0.6",
+      "d7": "-1.2",
+      "d8": "-0.8",
+      "d9": "-0.4"
+    }
+  },
+  "spectrochemical_series": [
+    "I-",
+    "Br-",
+    "S2-",
+    "SCN-",
+    "Cl-",
+    "N3-",
+    "F-",
+    "OH-",
+    "ox2-",
+    "O2-",
+    "H2O",
+    "NCS-",
+    "py",
+    "NH3",
+    "en",
+    "bipy",
+    "phen",
+    "NO2-",
+    "CN-",
+    "CO"
+  ],
+  "complex_colours": [
+    {
+      "complex": "[Ti(H2O)6]3+",
+      "absorbed": "yellow-green",
+      "observed": "purple/violet"
+    },
+    {
+      "complex": "[Cu(H2O)6]2+",
+      "absorbed": "red-orange",
+      "observed": "blue"
+    },
+    {
+      "complex": "[Ni(H2O)6]2+",
+      "absorbed": "red",
+      "observed": "green"
+    },
+    {
+      "complex": "[Co(H2O)6]2+",
+      "absorbed": "blue-green",
+      "observed": "pink"
+    },
+    {
+      "complex": "[Co(NH3)6]3+",
+      "absorbed": "blue",
+      "observed": "yellow"
+    },
+    {
+      "complex": "[Fe(H2O)6]3+",
+      "absorbed": "yellow-green",
+      "observed": "pale violet"
+    },
+    {
+      "complex": "[Cr(H2O)6]3+",
+      "absorbed": "yellow-green",
+      "observed": "violet"
+    }
+  ],
+  "werner_data": [
+    {
+      "empirical": "CoCl3·6NH3",
+      "modern": "[Co(NH3)6]Cl3",
+      "ions_precipitated": "3 Cl-"
+    },
+    {
+      "empirical": "CoCl3·5NH3",
+      "modern": "[Co(NH3)5Cl]Cl2",
+      "ions_precipitated": "2 Cl-"
+    },
+    {
+      "empirical": "CoCl3·4NH3",
+      "modern": "[Co(NH3)4Cl2]Cl",
+      "ions_precipitated": "1 Cl-"
+    },
+    {
+      "empirical": "CoCl3·3NH3",
+      "modern": "[Co(NH3)3Cl3]",
+      "ions_precipitated": "0 Cl-"
+    }
+  ],
+  "ean_examples": [
+    {
+      "complex": "Ni(CO)4",
+      "metal_z": 28,
+      "oxidation_state": 0,
+      "ligand_electrons": 8,
+      "ean": 36
+    },
+    {
+      "complex": "Fe(CO)5",
+      "metal_z": 26,
+      "oxidation_state": 0,
+      "ligand_electrons": 10,
+      "ean": 36
+    },
+    {
+      "complex": "Cr(CO)6",
+      "metal_z": 24,
+      "oxidation_state": 0,
+      "ligand_electrons": 12,
+      "ean": 36
+    }
+  ],
+  "magnetic_moments": [
+    {
+      "complex": "[Fe(CN)6]4-",
+      "ion": "Fe2+",
+      "config": "d6",
+      "spin": "low",
+      "unpaired": 0,
+      "mu": "0 BM"
+    },
+    {
+      "complex": "[FeF6]3-",
+      "ion": "Fe3+",
+      "config": "d5",
+      "spin": "high",
+      "unpaired": 5,
+      "mu": "5.92 BM"
+    }
+  ],
+  "hybridisation_table": [
+    {
+      "cn": 2,
+      "hybridisation": "sp",
+      "geometry": "linear",
+      "example": "[Ag(NH3)2]+"
+    },
+    {
+      "cn": 4,
+      "hybridisation": "sp3",
+      "geometry": "tetrahedral",
+      "example": "[NiCl4]2-"
+    },
+    {
+      "cn": 4,
+      "hybridisation": "dsp2",
+      "geometry": "square planar",
+      "example": "[Ni(CN)4]2-"
+    },
+    {
+      "cn": 6,
+      "hybridisation": "sp3d2",
+      "geometry": "octahedral (outer)",
+      "example": "[CoF6]3-"
+    },
+    {
+      "cn": 6,
+      "hybridisation": "d2sp3",
+      "geometry": "octahedral (inner)",
+      "example": "[Co(NH3)6]3+"
+    }
+  ],
+  "common_mistakes": [
+    "Confusing ionisation vs coordination isomerism",
+    "Incorrect CFSE calculation for d6 systems by forgetting pairing energy",
+    "Failing to recognize that all 4d and 5d series metal complexes form low-spin complexes regardless of ligand field strength",
+    "Calculation errors in finding metal oxidation state, particularly with neutral ligands like CO or H2O",
+    "Misidentifying ambidentate ligands (like SCN- vs NCS-) as bidentate ligands",
+    "Assuming all coordination number 4 complexes are tetrahedral, missing square planar cases for d8 metals with strong field ligands",
+    "Forgetting to balance charge when predicting complex formulas"
+  ]
+}

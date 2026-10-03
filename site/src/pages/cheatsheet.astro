@@ -1,0 +1,84 @@
+---
+import Layout from '../layouts/Layout.astro';
+import cheatsheet from '../data/cheatsheet.json';
+---
+
+<Layout title="Cheat Sheet | Coordination Compounds">
+	<h2>cheat sheet</h2>
+	
+	<section class="concept-card">
+		<h3>Nomenclature Rules</h3>
+		<ol>
+			{cheatsheet.nomenclature_rules.map((rule: string) => (
+				<li>{rule}</li>
+			))}
+		</ol>
+	</section>
+
+	<section class="concept-card">
+		<h3>Spectrochemical Series</h3>
+		<p>Increasing field strength ($ \Delta_o $):</p>
+		<p class="series">{cheatsheet.spectrochemical_series.join(' < ')}</p>
+	</section>
+
+	<section class="concept-card">
+		<h3>Hybridisation & Geometry</h3>
+		<table>
+			<thead>
+				<tr>
+					<th>CN</th>
+					<th>Geometry</th>
+					<th>Hybridisation</th>
+					<th>Example</th>
+				</tr>
+			</thead>
+			<tbody>
+				{cheatsheet.hybridisation_table.map((row: any) => (
+					<tr>
+						<td>{row.cn}</td>
+						<td>{row.geometry}</td>
+						<td>{row.hybridisation}</td>
+						<td><span set:html={row.example} /></td>
+					</tr>
+				))}
+			</tbody>
+		</table>
+	</section>
+
+	<section class="concept-card">
+		<h3>Isomer Types</h3>
+		<ul>
+			{cheatsheet.isomer_types.map((isomer: any) => (
+				<li>
+					<strong>{isomer.type} - {isomer.subtype}:</strong> {isomer.description}
+					<br/><em>Example:</em> <span set:html={isomer.example} />
+				</li>
+			))}
+		</ul>
+	</section>
+</Layout>
+
+<style>
+	table {
+		width: 100%;
+		border-collapse: collapse;
+		margin-top: 1rem;
+	}
+	th, td {
+		border: 1px solid #333;
+		padding: 0.5rem;
+		text-align: left;
+	}
+	.series {
+		font-family: monospace;
+		background: #111;
+		padding: 1rem;
+		border-radius: 4px;
+	}
+	ol, ul {
+		padding-left: 1.5rem;
+	}
+	li {
+		margin-bottom: 0.5rem;
+	}
+</style>

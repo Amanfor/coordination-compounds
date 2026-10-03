@@ -1,0 +1,96 @@
+---
+---
+<div class="geometry-viewer">
+  <h2>Geometry Viewer</h2>
+  <div class="controls">
+    <select id="geometry-select">
+      <option value="linear">Linear</option>
+      <option value="square-planar">Square Planar</option>
+      <option value="tetrahedral">Tetrahedral</option>
+      <option value="octahedral">Octahedral</option>
+    </select>
+    
+    <div id="isomer-options" style="display: none;">
+      <label><input type="radio" name="isomer" value="cis" checked> Cis</label>
+      <label><input type="radio" name="isomer" value="trans"> Trans</label>
+      <label><input type="radio" name="isomer" value="fac"> Fac</label>
+      <label><input type="radio" name="isomer" value="mer"> Mer</label>
+    </div>
+  </div>
+
+  <svg id="geometry-svg" width="300" height="300" viewBox="-150 -150 300 300">
+    <g id="ligands-group"></g>
+    <circle cx="0" cy="0" r="20" fill="#666" />
+    <text x="0" y="5" fill="#fff" text-anchor="middle" font-size="14">M</text>
+  </svg>
+</div>
+
+<script>
+  const select = document.getElementById('geometry-select');
+  const isomerOptions = document.getElementById('isomer-options');
+  const svgGroup = document.getElementById('ligands-group');
+  const radios = document.querySelectorAll('input[name="isomer"]');
+
+  function draw() {
+    const geom = select.value;
+    let selectedIsomer = 'cis';
+    radios.forEach(r => { if (r.checked) selectedIsomer = r.value; });
+    
+    svgGroup.innerHTML = '';
+    
+    let ligands = [];
+    if (geom === 'linear') {
+      isomerOptions.style.display = 'none';
+      ligands = [{x: -100, y: 0, label: 'L'}, {x: 100, y: 0, label: 'L'}];
+    } else if (geom === 'square-planar') {
+      isomerOptions.style.display = 'block';
+      radios.forEach(r => r.disabled = ['fac', 'mer'].includes(r.value));
+      ligands = [
+        {x: -80, y: -40, label: 'L'}, {x: 80, y: 40, label: 'L'},
+        {x: 40, y: -80, label: 'L'}, {x: -40, y: 80, label: 'L'}
+      ];
+    } else if (geom === 'tetrahedral') {
+      isomerOptions.style.display = 'none';
+      ligands = [
+        {x: 0, y: -100, label: 'L'}, {x: -80, y: 50, label: 'L'},
+        {x: 80, y: 50, label: 'L'}, {x: 0, y: 80, label: 'L'}
+      ];
+    } else if (geom === 'octahedral') {
+      isomerOptions.style.display = 'block';
+      radios.forEach(r => r.disabled = false);
+      ligands = [
+        {x: 0, y: -100, label: 'L'}, {x: 0, y: 100, label: 'L'},
+        {x: -80, y: -40, label: 'L'}, {x: 80, y: 40, label: 'L'},
+        {x: -40, y: 80, label: 'L'}, {x: 40, y: -80, label: 'L'}
+      ];
+    }
+
+    ligands.forEach(l => {
+      svgGroup.innerHTML += `<line x1="0" y1="0" x2="${l.x}" y2="${l.y}" stroke="#333" stroke-width="2"/>`;
+      svgGroup.innerHTML += `<circle cx="${l.x}" cy="${l.y}" r="15" fill="#111" stroke="#333" stroke-width="1"/>`;
+      svgGroup.innerHTML += `<text x="${l.x}" y="${l.y+5}" fill="#fff" text-anchor="middle" font-size="12">${l.label}</text>`;
+    });
+  }
+  
+  select.addEventListener('change', draw);
+  radios.forEach(r => r.addEventListener('change', draw));
+  draw();
+</script>
+
+<style>
+  .geometry-viewer {
+    background: #000;
+    color: #fff;
+    font-family: sans-serif;
+    padding: 20px;
+    border: 1px solid #333;
+    border-radius: 8px;
+    max-width: 100%;
+    margin: 0 auto;
+    text-align: center;
+  }
+  .controls { margin-bottom: 20px; }
+  select { background: #111; color: #fff; border: 1px solid #333; padding: 5px; }
+  input[type="radio"] { margin-left: 10px; }
+  svg { display: block; margin: 0 auto; background: #000; }
+</style>

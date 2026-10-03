@@ -1,0 +1,176 @@
+{
+  "nomenclature_rules": [
+    "Cation is named first, followed by the anion.",
+    "Ligands are named in strictly alphabetical order before the central metal atom/ion.",
+    "Multiplicative prefixes (di, tri, tetra) and structural prefixes (cis, trans, fac, mer) are ignored for alphabetical order.",
+    "Anionic ligands end with the suffix '-ido' (e.g., chlorido, cyanido).",
+    "Neutral ligands retain common names, with exceptions: H2O (aqua), NH3 (ammine), CO (carbonyl), NO (nitrosyl).",
+    "In anionic complexes, the metal name ends with '-ate' (e.g., ferrate, cuprate).",
+    "Oxidation state is designated by Roman numerals in parentheses (e.g., (II), (III)) immediately following the metal name."
+  ],
+  "hybridisation_table": [
+    {
+      "cn": 4,
+      "geometry": "Tetrahedral",
+      "hybridisation": "sp³",
+      "example": "[NiCl4]²⁻, [Ni(CO)4]"
+    },
+    {
+      "cn": 4,
+      "geometry": "Square Planar",
+      "hybridisation": "dsp²",
+      "example": "[Ni(CN)4]²⁻, [PtCl4]²⁻"
+    },
+    {
+      "cn": 6,
+      "geometry": "Octahedral (Inner Orbital / Low Spin)",
+      "hybridisation": "d²sp³",
+      "example": "[Co(NH3)6]³⁺, [Fe(CN)6]⁴⁻"
+    },
+    {
+      "cn": 6,
+      "geometry": "Octahedral (Outer Orbital / High Spin)",
+      "hybridisation": "sp³d²",
+      "example": "[CoF6]³⁻, [FeF6]³⁻"
+    }
+  ],
+  "spectrochemical_series": [
+    "I⁻",
+    "Br⁻",
+    "S²⁻",
+    "SCN⁻",
+    "Cl⁻",
+    "NO3⁻",
+    "F⁻",
+    "OH⁻",
+    "C2O4²⁻ (ox)",
+    "H2O",
+    "NCS⁻",
+    "EDTA⁴⁻",
+    "NH3",
+    "en",
+    "bpy",
+    "phen",
+    "NO2⁻",
+    "CN⁻",
+    "CO"
+  ],
+  "isomer_types": [
+    {
+      "type": "Structural",
+      "subtype": "Ionisation Isomerism",
+      "description": "Exchange of coordinated ligand with ionisable counter ion outside the sphere.",
+      "example": "[Co(NH3)5Br]SO4 vs [Co(NH3)5SO4]Br"
+    },
+    {
+      "type": "Structural",
+      "subtype": "Hydrate / Solvate Isomerism",
+      "description": "Water molecules swap between acting as coordinated ligands and crystal lattice solvent.",
+      "example": "[Cr(H2O)6]Cl3 vs [Cr(H2O)5Cl]Cl2·H2O"
+    },
+    {
+      "type": "Structural",
+      "subtype": "Linkage Isomerism",
+      "description": "Arises in complexes containing ambidentate ligands (coordinating through different atoms).",
+      "example": "[Co(NH3)5(NO2)]Cl2 vs [Co(NH3)5(ONO)]Cl2"
+    },
+    {
+      "type": "Structural",
+      "subtype": "Coordination Isomerism",
+      "description": "Interchange of ligands between a complex cation and a complex anion.",
+      "example": "[Co(NH3)6][Cr(CN)6] vs [Cr(NH3)6][Co(CN)6]"
+    },
+    {
+      "type": "Stereoisomerism",
+      "subtype": "Geometrical Isomerism",
+      "description": "Different spatial arrangement of ligands (cis/trans or fac/mer). Never occurs in tetrahedral complexes.",
+      "example": "cis-[Pt(NH3)2Cl2] (Cisplatin) vs trans-[Pt(NH3)2Cl2]"
+    },
+    {
+      "type": "Stereoisomerism",
+      "subtype": "Optical Isomerism",
+      "description": "Non-superimposable mirror images (chiral enantiomers). Complex must lack a plane of symmetry.",
+      "example": "cis-[Co(en)2Cl2]+ is active, trans-[Co(en)2Cl2]+ is inactive."
+    }
+  ],
+  "magnetic_moment": {
+    "formula": "μ_s = \\sqrt{n(n + 2)} \\text{ B.M.}",
+    "table": [
+      {
+        "n": 1,
+        "mu_s": "1.73 B.M."
+      },
+      {
+        "n": 2,
+        "mu_s": "2.83 B.M."
+      },
+      {
+        "n": 3,
+        "mu_s": "3.87 B.M."
+      },
+      {
+        "n": 4,
+        "mu_s": "4.90 B.M."
+      },
+      {
+        "n": 5,
+        "mu_s": "5.92 B.M."
+      }
+    ]
+  },
+  "cfse_values": {
+    "description": "Crystal Field Stabilization Energy (CFSE) in terms of Δo for Octahedral fields.",
+    "table": [
+      {
+        "d_electrons": "d1",
+        "high_spin": "-0.4Δo",
+        "low_spin": "-0.4Δo"
+      },
+      {
+        "d_electrons": "d2",
+        "high_spin": "-0.8Δo",
+        "low_spin": "-0.8Δo"
+      },
+      {
+        "d_electrons": "d3",
+        "high_spin": "-1.2Δo",
+        "low_spin": "-1.2Δo"
+      },
+      {
+        "d_electrons": "d4",
+        "high_spin": "-0.6Δo",
+        "low_spin": "-1.6Δo + 1P"
+      },
+      {
+        "d_electrons": "d5",
+        "high_spin": "0.0Δo",
+        "low_spin": "-2.0Δo + 2P"
+      },
+      {
+        "d_electrons": "d6",
+        "high_spin": "-0.4Δo",
+        "low_spin": "-2.4Δo + 2P"
+      },
+      {
+        "d_electrons": "d7",
+        "high_spin": "-0.8Δo",
+        "low_spin": "-1.8Δo + 1P"
+      },
+      {
+        "d_electrons": "d8",
+        "high_spin": "-1.2Δo",
+        "low_spin": "-1.2Δo"
+      },
+      {
+        "d_electrons": "d9",
+        "high_spin": "-0.6Δo",
+        "low_spin": "-0.6Δo"
+      },
+      {
+        "d_electrons": "d10",
+        "high_spin": "0.0Δo",
+        "low_spin": "0.0Δo"
+      }
+    ]
+  }
+}

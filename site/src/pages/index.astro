@@ -1,0 +1,91 @@
+---
+import Layout from '../layouts/Layout.astro';
+import conceptsData from '../data/concepts.json';
+import questionsData from '../data/questions.json';
+
+import CFTDiagram from '../components/visuals/CFTDiagram.astro';
+import ColourWheel from '../components/visuals/ColourWheel.astro';
+import GeometryViewer from '../components/visuals/GeometryViewer.astro';
+import IsomerismViewer from '../components/visuals/IsomerismViewer.astro';
+import NamingBuilder from '../components/visuals/NamingBuilder.astro';
+import WernerExperiment from '../components/visuals/WernerExperiment.astro';
+
+const getVisualComponent = (visualName: string) => {
+	switch(visualName) {
+		case 'werner-experiment': return WernerExperiment;
+		case 'naming-builder': return NamingBuilder;
+		case 'geometry-viewer': return GeometryViewer;
+		case 'isomerism-viewer': return IsomerismViewer;
+		case 'cft-diagram': return CFTDiagram;
+		case 'colour-wheel': return ColourWheel;
+		default: return null;
+	}
+};
+---
+
+<Layout title="Coordination Compounds">
+	<h2>concepts</h2>
+	<p>A visual guide to coordination chemistry.</p>
+	
+	<div class="concept-list">
+		{conceptsData.sort((a, b) => a.order - b.order).map(concept => {
+			const Visual = getVisualComponent(concept.visual || '');
+			const conceptQuestions = questionsData.filter((q: any) => q.concept === concept.id);
+			
+			return (
+				<section class="concept-card" id={concept.id}>
+					<h3>{concept.title}</h3>
+					<p><em>{concept.summary}</em></p>
+					
+					{Visual && (
+						<div class="visual-container">
+							<Visual />
+						</div>
+					)}
+					
+					<div class="concept-body" set:html={concept.body.replace(/\n/g, '<br/>')} />
+					
+					{conceptQuestions.length > 0 && (
+						<div class="questions-section">
+							<h4>practice questions</h4>
+							{conceptQuestions.map((q: any, i: number) => (
+								<div class="question-block">
+									<p><strong>Q{i+1}.</strong> <span set:html={q.question.replace(/\n/g, '<br/>')} /></p>
+									{q.options && q.options.length > 0 && (
+										<ul>
+											{q.options.map((opt: string, j: number) => (
+												<li>{String.fromCharCode(65+j)}. {opt}</li>
+											))}
+										</ul>
+									)}
+									<button onclick={`document.getElementById('sol-${q.id}').style.display = document.getElementById('sol-${q.id}').style.display === 'block' ? 'none' : 'block'`}>
+										Show Solution
+									</button>
+									<div id={`sol-${q.id}`} class="solution">
+										<p><strong>Answer:</strong> {q.answer}</p>
+										<div set:html={q.solution.replace(/\n/g, '<br/>')} />
+									</div>
+								</div>
+							))}
+						</div>
+					)}
+				</section>
+			);
+		})}
+	</div>
+</Layout>
+
+<style>
+	.questions-section {
+		margin-top: 3rem;
+		border-top: 1px solid #333;
+		padding-top: 1rem;
+	}
+	ul {
+		list-style: none;
+		padding: 0;
+	}
+	li {
+		margin-bottom: 0.5rem;
+	}
+</style>

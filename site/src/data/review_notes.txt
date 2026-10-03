@@ -1,0 +1,7 @@
+Review of concepts.json:
+
+1. EAN Rule definition error: In the EAN rule section, it states "C.N. = Coordination number (or number of ligands × denticity × 2 electrons)." This is incorrect. C.N. is just the number of ligands × denticity. The number of electrons added is 2 × C.N. The current phrasing implies C.N. itself is the number of electrons.
+2. CFT CFSE formula: The CFSE formula `[-0.4 * n(t2g) + 0.6 * n(eg)]Δo` is missing the pairing energy term (+ mP or xP, where m/x is the number of paired electron pairs relative to the spherical field). This is crucial for low-spin complexes.
+3. CFT Spectrochemical Series: The series given is a very abbreviated version. It might be better to include a more complete series for JEE students (e.g., including SCN-, C2O4 2-, EDTA).
+
+Otherwise, the chemical accuracy is good. 3 minor issues/clarifications found.

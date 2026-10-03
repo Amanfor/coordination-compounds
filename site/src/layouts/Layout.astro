@@ -1,0 +1,140 @@
+---
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Coordination Compounds - Visual Learning" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+		
+		<!-- KaTeX -->
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css" integrity="sha384-n8MVd4RsEw426118w3O5kxs8E0kH/Z+zD20i/MhV9/T1F4bHw+g048P8A4y/e8w=" crossorigin="anonymous">
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js" integrity="sha384-1PKO/eW0r/L2PZ/p33bB23Z/s2pZ/tK1jM6TqGqA4T6npxs6B4yA4mZgP+F6sWc" crossorigin="anonymous"></script>
+		<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js" integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"
+			onload="renderMathInElement(document.body, {delimiters: [{left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}]});"></script>
+
+	</head>
+	<body>
+		<header>
+			<h1><a href="/coordination-compounds/">coordination compounds</a></h1>
+			<nav>
+				<a href="/coordination-compounds/">concepts</a>
+				<a href="/coordination-compounds/cheatsheet">cheat sheet</a>
+			</nav>
+		</header>
+		<main>
+			<slot />
+		</main>
+	</body>
+</html>
+<style is:global>
+	:root {
+		--bg: #000;
+		--text: #fff;
+		--border: #333;
+		--accent: #aaa;
+	}
+	html {
+		font-family: system-ui, sans-serif;
+		background: var(--bg);
+		color: var(--text);
+	}
+	body {
+		margin: 0;
+		padding: 0;
+		display: flex;
+		flex-direction: column;
+		min-height: 100vh;
+	}
+	header {
+		padding: 1rem 2rem;
+		border-bottom: 1px solid var(--border);
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+	}
+	header h1 {
+		margin: 0;
+		font-size: 1.2rem;
+		font-weight: normal;
+		text-transform: lowercase;
+	}
+	header a {
+		color: var(--text);
+		text-decoration: none;
+	}
+	nav {
+		display: flex;
+		gap: 1rem;
+	}
+	nav a {
+		color: var(--accent);
+		text-transform: lowercase;
+		text-decoration: none;
+	}
+	nav a:hover {
+		color: var(--text);
+	}
+	main {
+		flex: 1;
+		padding: 2rem;
+		max-width: 1000px;
+		margin: 0 auto;
+		width: 100%;
+		box-sizing: border-box;
+	}
+	h1, h2, h3, h4 {
+		font-weight: normal;
+		text-transform: lowercase;
+	}
+	.concept-card {
+		border: 1px solid var(--border);
+		padding: 1.5rem;
+		margin-bottom: 2rem;
+		border-radius: 4px;
+	}
+	.visual-container {
+		margin: 2rem 0;
+		border: 1px solid var(--border);
+		min-height: 300px;
+		position: relative;
+	}
+	button {
+		background: transparent;
+		color: var(--text);
+		border: 1px solid var(--border);
+		padding: 0.5rem 1rem;
+		cursor: pointer;
+	}
+	button:hover {
+		border-color: var(--text);
+	}
+	select, input {
+		background: #111;
+		color: var(--text);
+		border: 1px solid var(--border);
+		padding: 0.5rem;
+	}
+	
+	.question-block {
+		margin-top: 1rem;
+		padding-top: 1rem;
+		border-top: 1px dashed var(--border);
+	}
+	.solution {
+		display: none;
+		margin-top: 1rem;
+		padding: 1rem;
+		background: #111;
+		border-left: 2px solid var(--accent);
+	}
+</style>

@@ -1,0 +1,74 @@
+---
+---
+<div class="werner-experiment">
+  <h2>Werner's Experiment</h2>
+  <div class="tubes-container">
+    <div class="tube-wrap" onclick="precipitate('tube1', 3)">
+      <div class="tube" id="tube1">
+        <div class="liquid yellow"></div>
+        <div class="precipitate" id="ppt-tube1"></div>
+      </div>
+      <p>CoCl₃·6NH₃</p>
+      <small>Luteo (Yellow)</small>
+    </div>
+    
+    <div class="tube-wrap" onclick="precipitate('tube2', 2)">
+      <div class="tube" id="tube2">
+        <div class="liquid purple"></div>
+        <div class="precipitate" id="ppt-tube2"></div>
+      </div>
+      <p>CoCl₃·5NH₃</p>
+      <small>Purpureo (Purple)</small>
+    </div>
+    
+    <div class="tube-wrap" onclick="precipitate('tube3', 1)">
+      <div class="tube" id="tube3">
+        <div class="liquid green"></div>
+        <div class="precipitate" id="ppt-tube3"></div>
+      </div>
+      <p>CoCl₃·4NH₃</p>
+      <small>Praseo (Green)</small>
+    </div>
+  </div>
+  
+  <div class="explanation">
+    <p>Click a test tube to add <strong>AgNO₃</strong>.</p>
+    <p id="werner-result">Primary Valence (Ionizable): -, Secondary Valence: 6</p>
+  </div>
+</div>
+
+<script>
+  function precipitate(tubeId, moles) {
+    const pptDiv = document.getElementById(`ppt-${tubeId}`);
+    pptDiv.innerHTML = '';
+    
+    for (let i = 0; i < moles * 10; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'ppt-dot';
+      dot.style.left = Math.random() * 80 + 10 + '%';
+      dot.style.bottom = Math.random() * 20 + 'px';
+      pptDiv.appendChild(dot);
+    }
+    
+    document.getElementById('werner-result').innerHTML = `
+      Formed <strong>${moles} AgCl</strong> precipitate(s).<br>
+      Primary Valence (Ionizable Cl⁻): ${moles}
+    `;
+  }
+</script>
+
+<style>
+  .werner-experiment { background: #000; color: #fff; padding: 20px; border: 1px solid #333; text-align: center; }
+  .tubes-container { display: flex; justify-content: space-around; margin: 20px 0; }
+  .tube-wrap { cursor: pointer; transition: transform 0.2s; }
+  .tube-wrap:hover { transform: translateY(-5px); }
+  .tube { width: 40px; height: 120px; border: 2px solid #555; border-top: none; border-radius: 0 0 20px 20px; position: relative; margin: 0 auto 10px auto; overflow: hidden; }
+  .liquid { position: absolute; bottom: 0; width: 100%; height: 70%; opacity: 0.8; }
+  .yellow { background: #f1c40f; }
+  .purple { background: #9b59b6; }
+  .green { background: #2ecc71; }
+  .precipitate { position: absolute; bottom: 0; width: 100%; height: 100%; pointer-events: none; }
+  .ppt-dot { position: absolute; width: 4px; height: 4px; background: #fff; border-radius: 50%; box-shadow: 0 0 2px #fff; animation: fall 1s ease-in; }
+  @keyframes fall { from { bottom: 100%; } }
+  .explanation { margin-top: 15px; font-size: 0.9em; color: #ccc; }
+</style>
